@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, Form, message, Upload, Input, Modal } from 'antd';
 import axios from 'axios';
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -9,7 +9,6 @@ videoAxios.interceptors.request.use(config => {
   config.headers.Authorization = token;
   return config;
 });
-const { Dragger } = Upload;
 const { Title } = Typography;
 const { TextArea } = Input;
 
@@ -60,7 +59,9 @@ class UploadVideoPage extends React.Component {
     if (!file.url && !file.preview) {
       file.preview = await this.getBase64(file.originFileObj);
     }
-
+    if (file.type === 'video/mp4') {
+      file.preview = file.thumbUrl;
+    }
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
@@ -145,24 +146,6 @@ class UploadVideoPage extends React.Component {
 
         <Form onSubmit={this.onSubmit}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {/* <Dragger
-              name="file"
-              multiple={true}
-              action=""
-              onChange={this.handleUpload}
-              headers={this.headers}
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibit from
-                uploading company data or other band files
-              </p>
-            </Dragger> */}
             <Upload
               action=""
               listType="picture-card"
@@ -180,14 +163,6 @@ class UploadVideoPage extends React.Component {
             >
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
-            {/* {this.state.thumbnail !== '' && (
-              <div>
-                <img
-                  src={`http://localhost:1337/${this.state.thumbnail}`}
-                  alt="haha"
-                />
-              </div>
-            )} */}
           </div>
 
           <br />
