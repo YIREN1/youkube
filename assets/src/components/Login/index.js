@@ -8,7 +8,7 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const res = await this.props.authenticate(values);
+        await this.props.authenticate(values);
         // if (res.success) {
         //   this.props.onCancel();
         // }

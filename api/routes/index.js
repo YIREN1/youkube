@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const routes = express.Router();
 
 const users = require('./users');
+const video = require('./video');
 
 // Set static files
 routes.use(express.static(path.join(__dirname, '../../public')));
@@ -20,7 +21,8 @@ routes.use(express.json());
 routes.use(express.urlencoded({ extended: true }));
 routes.use(morgan('dev'));
 routes.use('/users', users);
-
+routes.use('/video', video);
+routes.use('/uploads/thumbnails', express.static('uploads/thumbnails'));
 routes.get('/status/health', (req, res) => {
   res.send('GOOD');
 });

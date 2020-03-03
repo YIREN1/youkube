@@ -1,6 +1,6 @@
 
 *node_modules/
-public/
+# public/
 *.env
 .eslintrc.json
 .prettierrc
@@ -23,3 +23,5 @@ client/public/uploads
 *service-account.json
 client/
 *chatbot*.json
+
+uploads/
