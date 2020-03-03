@@ -1,7 +1,7 @@
 import React from 'react';
-import { Typography, Button, Form, message, Upload, Input, Icon } from 'antd';
+import { Typography, Button, Form, message, Upload, Input, Modal } from 'antd';
 import axios from 'axios';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -40,8 +40,32 @@ class UploadVideoPage extends React.Component {
       filePath: '',
       duration: '',
       thumbnail: '',
+      previewVisible: false,
+      previewImage: '',
+      fileList: [],
     };
   }
+
+  getBase64 = file => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  };
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await this.getBase64(file.originFileObj);
+    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+    });
+  };
 
   handleChangeTitle = event => {
     this.setState({ title: event.currentTarget.value });
@@ -63,31 +87,9 @@ class UploadVideoPage extends React.Component {
 
   onSubmit = () => {};
 
-  // onDrop = files => {
-  //   let formData = new FormData();
-  //   const config = {
-  //     header: { 'content-type': 'multipart/form-data', authurization: '' },
-  //   };
-  //   console.log(files);
-  //   formData.append('file', files[0]);
-
-  //   videoAxios.post('/video/uploadss', formData, config).then(response => {
-  //     if (response.data.success) {
-  //       let variable = {
-  //         filePath: response.data.filePath,
-  //         fileName: response.data.fileName,
-  //       };
-  //       this.setState({ filePath: response.data.filePath });
-
-  //       //gerenate thumbnail with this filepath !
-  //     } else {
-  //       alert('failed to save the video in server');
-  //     }
-  //   });
-  // };
-
   handleUpload = async info => {
     const { status } = info.file;
+    this.setState({ fileList: info.fileList });
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
@@ -101,14 +103,40 @@ class UploadVideoPage extends React.Component {
       this.setState({ filePath: response.filePath });
 
       //gerenate thumbnail with this filepath !
+      try {
+        const res = await videoAxios.post('/video/thumbnail', payload);
+        const { data } = res;
+        if (data.success) {
+          this.setState({});
 
-      const thumbNailPath = await axios.post('/api/video/thumbnail', payload);
+          this.setState(preState => {
+            const originalFileList = preState.fileList;
+            originalFileList[
+              originalFileList.length - 1
+            ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
+            return {
+              fileList: originalFileList,
+              thumbnail: data.thumbsFilePath,
+              duration: data.fileDuration,
+            };
+          });
+        }
+      } catch (error) {
+        message.error(`${info.file.name} generating thumbnail failed.`);
+      }
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
 
   render() {
+    const { previewVisible, previewImage, fileList } = this.state;
+    const uploadButton = (
+      <div>
+        <PlusOutlined />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -117,25 +145,7 @@ class UploadVideoPage extends React.Component {
 
         <Form onSubmit={this.onSubmit}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {/* <Dropzone onDrop={this.onDrop} multiple={false} maxSize={800000000}>
-              {({ getRootProps, getInputProps }) => (
-                <div
-                  style={{
-                    width: '300px',
-                    height: '240px',
-                    border: '1px solid lightgray',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  {...getRootProps()}
-                >
-                  <input {...getInputProps()} />
-                  <Icon type="plus" style={{ fontSize: '3rem' }} />
-                </div>
-              )}
-            </Dropzone> */}
-            <Dragger
+            {/* <Dragger
               name="file"
               multiple={true}
               action=""
@@ -152,12 +162,32 @@ class UploadVideoPage extends React.Component {
                 Support for a single or bulk upload. Strictly prohibit from
                 uploading company data or other band files
               </p>
-            </Dragger>
-            {/* {thumbnail !== "" &&
-                    <div>
-                        <img src={`http://localhost:5000/${thumbnail}`} alt="haha" />
-                    </div>
-                } */}
+            </Dragger> */}
+            <Upload
+              action=""
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={this.handlePreview}
+              onChange={this.handleUpload}
+              headers={this.headers}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              footer={null}
+              onCancel={this.handleCancel}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
+            {/* {this.state.thumbnail !== '' && (
+              <div>
+                <img
+                  src={`http://localhost:1337/${this.state.thumbnail}`}
+                  alt="haha"
+                />
+              </div>
+            )} */}
           </div>
 
           <br />

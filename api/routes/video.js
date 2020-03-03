@@ -8,4 +8,6 @@ const passportJWT = passport.authenticate('jwt', { session: false });
 
 router.post('/upload', passportJWT, VideoController.uploadVideo);
 
+router.post('/thumbnail', passportJWT, VideoController.getThumbnail);
+
 module.exports = router;
