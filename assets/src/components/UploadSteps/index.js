@@ -1,4 +1,4 @@
-import { Steps, Button, message, Modal } from 'antd';
+import { Steps, message, Modal } from 'antd';
 import React from 'react';
 import UploadVideoModal from './steps/UploadVideoModal';
 import UploadVideoDetailsPage from './steps/UploadVideoDetailsPage';

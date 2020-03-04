@@ -189,7 +189,6 @@ class UploadVideoDetailsPage extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const { visible, onCancel } = this.props;
 
     return (
       <div style={{ maxWidth: '700px', margin: '2rem auto' }}>

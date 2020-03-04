@@ -72,7 +72,8 @@ class Home extends React.Component {
           />
           <span>{video.author.name} </span>
           <br />
-              <span style={{ marginLeft: '3rem' }}> {video.views}</span>{' views '}-{' '}
+          <span style={{ marginLeft: '3rem' }}> {video.views}</span>
+          {' views '}-{' '}
           <span> {moment(video.createdAt).format('MMM Do YYYY')} </span>
         </Col>
       );
