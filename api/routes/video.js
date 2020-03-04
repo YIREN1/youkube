@@ -12,4 +12,6 @@ router.post('/upload', passportJWT, VideoController.uploadVideo);
 
 router.post('/submitVideo', passportJWT, VideoController.submitVideo);
 
+router.get('/getVideos', passportJWT, VideoController.getVideos);
+
 module.exports = router;

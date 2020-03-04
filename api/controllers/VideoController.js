@@ -48,7 +48,7 @@ const getThumbnail = (req, res) => {
 };
 const submitVideo = async (req, res) => {
   const video = new Video(req.body);
-
+  video.author = req.user.id;
   try {
     const savedVideo = await video.save();
     return res.status(200).json({
@@ -58,8 +58,19 @@ const submitVideo = async (req, res) => {
     return res.status(400).json({ success: false, error });
   }
 };
+const getVideos = async (req, res) => {
+  try {
+    const videos = await Video.find()
+      .populate('author')
+      .exec();
+    return res.status(200).json({ success: true, videos });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
 
 module.exports = {
   uploadVideo,
   submitVideo,
+  getVideos,
 };

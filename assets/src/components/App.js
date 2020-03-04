@@ -6,6 +6,7 @@ import About from './About';
 import Footer from './Footer';
 import ProtectedRoute from '../context/ProtectedRoute';
 import NavBar from './NavBar/NavBar';
+import Home from './Home';
 import './App.css';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <ProtectedRoute exact path="/about" component={About} />
+          <ProtectedRoute exact path="/home" component={Home} />
         </Switch>
       </div>
       <Footer />
