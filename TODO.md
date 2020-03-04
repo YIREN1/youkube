@@ -6,3 +6,4 @@
 - [] navbar -> upload video modal -> details modal
 - [] node error handling
 - [] clean up upload
+- [] message instead of alert

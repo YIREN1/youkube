@@ -35,7 +35,9 @@ const videoSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
-
+videoSchema.set('toJSON', {
+  virtuals: true,
+});
 const Video = mongoose.model('Video', videoSchema);
 
 module.exports = Video;

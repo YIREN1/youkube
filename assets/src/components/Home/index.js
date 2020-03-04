@@ -35,7 +35,7 @@ class Home extends React.Component {
       return (
         <Col lg={6} md={8} xs={24}>
           <div style={{ position: 'relative' }}>
-            <a href={`/video/${video._id}`}>
+            <a href={`/watch/${video.id}`}>
               <img
                 style={{ width: '100%' }}
                 alt="thumbnail"
@@ -72,8 +72,8 @@ class Home extends React.Component {
           />
           <span>{video.author.name} </span>
           <br />
-          <span style={{ marginLeft: '3rem' }}> {video.views}</span>-{' '}
-          <span> {moment(video.createdAt).format('MMM Do YY')} </span>
+              <span style={{ marginLeft: '3rem' }}> {video.views}</span>{' views '}-{' '}
+          <span> {moment(video.createdAt).format('MMM Do YYYY')} </span>
         </Col>
       );
     });

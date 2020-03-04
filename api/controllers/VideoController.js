@@ -69,8 +69,26 @@ const getVideos = async (req, res) => {
   }
 };
 
+const getVideo = async (req, res) => {
+  try {
+    const videoId = req.param('videoId');
+    // todo
+    const video = await Video.findOne({ _id: videoId })
+      .populate('author')
+      .exec();
+    if (!video) {
+      return res.status(404).send('video not found');
+    }
+    return res.status(200).json({ success: true, video });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).send(error);
+  }
+};
+
 module.exports = {
   uploadVideo,
   submitVideo,
   getVideos,
+  getVideo,
 };
