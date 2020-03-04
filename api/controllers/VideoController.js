@@ -23,20 +23,23 @@ const storage = multer.diskStorage({
 const upload = multer({ storage }).single('file');
 
 const uploadVideo = (req, res) => {
-  upload(req, res, err => {
+  upload(req, res, async err => {
     if (err) {
       return res.json({ success: false, err });
     }
     try {
-      VideoService.generateThumbnail(res.req.file.path);
+      const result = await VideoService.generateThumbnail(res.req.file.path);
+      return res.json({
+        success: true,
+        filePath: res.req.file.path,
+        thumbsFilePaths: result.thumbsFilePaths,
+        fileDuration: result.fileDuration,
+        fileName: res.req.file.filename,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      res.status(500);
     }
-    return res.json({
-      success: true,
-      filePath: res.req.file.path,
-      fileName: res.req.file.filename,
-    });
   });
 };
 
