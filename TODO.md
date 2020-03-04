@@ -7,3 +7,4 @@
 - [] node error handling
 - [] clean up upload
 - [] message instead of alert
+- [] thumbnail preview

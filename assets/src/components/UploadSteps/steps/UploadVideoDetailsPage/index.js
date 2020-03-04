@@ -118,27 +118,27 @@ class UploadVideoDetailsPage extends React.Component {
     }
   };
 
-  getThumbnailsForVideo = async () => {
-    const payload = {};
-    const res = await videoAxios.post('/video/thumbnail', payload);
-    const { data } = res;
-    if (data.success) {
-      this.setState({});
+  // getThumbnailsForVideo = async () => {
+  //   const payload = {};
+  //   const res = await videoAxios.post('/video/thumbnail', payload);
+  //   const { data } = res;
+  //   if (data.success) {
+  //     this.setState({});
 
-      this.setState(preState => {
-        const originalFileList = preState.fileList;
-        originalFileList[
-          originalFileList.length - 1
-        ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
-        return {
-          fileList: originalFileList,
-          thumbnail: data.thumbsFilePath,
-          duration: data.fileDuration,
-        };
-      });
-    }
-  };
-
+  //     this.setState(preState => {
+  //       const originalFileList = preState.fileList;
+  //       originalFileList[
+  //         originalFileList.length - 1
+  //       ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
+  //       return {
+  //         fileList: originalFileList,
+  //         thumbnail: data.thumbsFilePath,
+  //         duration: data.fileDuration,
+  //       };
+  //     });
+  //   }
+  // };
+  // not used
   handleUpload = async info => {
     const { status } = info.file;
     this.setState({ fileList: info.fileList });

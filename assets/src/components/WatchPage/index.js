@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
+import SideVideos from './SideVideos';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -14,16 +15,14 @@ class WatchPage extends React.Component {
     this.state = { video: {}, videoId: props.match.params.videoId };
   }
   componentDidMount() {
-    axios
-      .get(`/video/getVideo/${this.state.videoId}`)
-      .then(response => {
-        if (response.data.success) {
-          console.log(response.data.video);
-          this.setState({ video: response.data.video });
-        } else {
-          alert('Failed to get video Info');
-        }
-      });
+    axios.get(`/video/getVideo/${this.state.videoId}`).then(response => {
+      if (response.data.success) {
+        console.log(response.data.video);
+        this.setState({ video: response.data.video });
+      } else {
+        alert('Failed to get video Info');
+      }
+    });
   }
   render() {
     if (this.state.video.author) {
@@ -41,19 +40,19 @@ class WatchPage extends React.Component {
               ></video>
 
               <List.Item
-                // actions={
-                //   [
-                    // <LikeDislikes
-                    //   video
-                    //   videoId={videoId}
-                    //   userId={localStorage.getItem('userId')}
-                    // />,
-                    // <Subscriber
-                    //   userTo={this.state.video.author.id}
-                    //   userFrom={localStorage.getItem('userId')}
-                    // />,
-                //   ]
-                // }
+              // actions={
+              //   [
+              // <LikeDislikes
+              //   video
+              //   videoId={videoId}
+              //   userId={localStorage.getItem('userId')}
+              // />,
+              // <Subscriber
+              //   userTo={this.state.video.author.id}
+              //   userFrom={localStorage.getItem('userId')}
+              // />,
+              //   ]
+              // }
               >
                 <List.Item.Meta
                   avatar={
@@ -78,7 +77,7 @@ class WatchPage extends React.Component {
             </div>
           </Col>
           <Col lg={6} xs={24}>
-            {/* <SideVideo /> */}
+            <SideVideos />
           </Col>
         </Row>
       );

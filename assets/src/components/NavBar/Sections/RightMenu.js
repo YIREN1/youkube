@@ -49,7 +49,7 @@ class RightMenu extends React.Component {
     if (!isAuthenticated()) {
       return (
         <Menu mode={this.props.mode}>
-          <Menu.Item key="mail">
+          <Menu.Item key="signin">
             <a onClick={this.showLoginModal}>Signin</a>
           </Menu.Item>
           <LoginModal
