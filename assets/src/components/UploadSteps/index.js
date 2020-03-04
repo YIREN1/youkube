@@ -30,14 +30,14 @@ class UploadSteps extends React.Component {
         title: 'Upload',
         content: (
           <UploadVideoModal
-            handleChange={this.handleChange}
+            handleChange={this.handleChange.bind(this)}
             onFinish={this.next.bind(this)}
           />
         ),
       },
       {
         title: 'Details',
-        content: <UploadVideoDetailsPage {...this.state}  />,
+        content: <UploadVideoDetailsPage {...this.state} />,
       },
       {
         title: 'Finish',

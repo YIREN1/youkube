@@ -35,8 +35,8 @@ class UploadVideoDetailsPage extends React.Component {
     this.state = {
       title: this.props.title,
       description: '',
-      categories: '',
-      privacy: '',
+      categories: 'Film & Animation',
+      privacy: 0,
       filePath: this.props.filePath,
       duration: this.props.duration,
       previewVisible: false,
@@ -105,10 +105,10 @@ class UploadVideoDetailsPage extends React.Component {
       privacy: this.state.privacy,
       filePath: this.state.filePath,
       duration: this.state.duration,
-      thumbnail: this.state.thumbnailList[0],
+      thumbnail: this.state.fileList[0].thumbUrl,
     };
 
-    const response = await axios.post('/video/submitVideo', payload);
+    const response = await videoAxios.post('/video/submitVideo', payload);
 
     if (response.data.success) {
       message.success(`submit successfully.`);

@@ -22,12 +22,15 @@ class UploadVideoModal extends React.Component {
     if (status === 'done') {
       message.success(`${info.file.name} file uploaded successfully.`);
       const { response } = info.file;
-      this.props.handleChangeTitle(info.file.name);
-      let payload = {
+      this.props.handleChange({
+        title: info.file.name,
         filePath: response.filePath,
-        fileName: response.fileName,
-      };
-      this.setState({ filePath: response.filePath });
+        duration: response.fileDuration,
+        thumbnailList: response.thumbsFilePaths.map((item, i) => ({
+          thumbUrl: item,
+          uid: i,
+        })),
+      });
       this.props.onFinish();
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
