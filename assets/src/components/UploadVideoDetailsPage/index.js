@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Button, Form, message, Upload, Input, Modal } from 'antd';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
+import './style.css';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -24,7 +25,7 @@ const Catogory = [
   { value: 0, label: 'Pets & Animals' },
   { value: 0, label: 'Sports' },
 ];
-class UploadVideoPage extends React.Component {
+class UploadVideoDetailsPage extends React.Component {
   constructor(props) {
     super(props);
     this.headers = {};
@@ -38,7 +39,6 @@ class UploadVideoPage extends React.Component {
       privacy: '',
       filePath: '',
       duration: '',
-      thumbnail: '',
       previewVisible: false,
       previewImage: '',
       fileList: [],
@@ -86,7 +86,50 @@ class UploadVideoPage extends React.Component {
     this.setState({ categories: event.currentTarget.value });
   };
 
-  onSubmit = () => {};
+  onSubmit = async event => {
+    event.preventDefault();
+    const { title, description, categories, privacy } = this.state;
+
+    if (
+      title === '' ||
+      description === '' ||
+      categories === '' ||
+      privacy === ''
+    ) {
+      return alert('Please first fill all the fields');
+    }
+    const payload = {};
+
+    const response = await axios.post('/api/video/uploadVideo', payload);
+
+    if (response.data.success) {
+      alert('video Uploaded Successfully');
+      // props.history.push('/');
+    } else {
+      alert('Failed to upload video');
+    }
+  };
+
+  getThumbnailsForVideo = async () => {
+    const payload = {};
+    const res = await videoAxios.post('/video/thumbnail', payload);
+    const { data } = res;
+    if (data.success) {
+      this.setState({});
+
+      this.setState(preState => {
+        const originalFileList = preState.fileList;
+        originalFileList[
+          originalFileList.length - 1
+        ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
+        return {
+          fileList: originalFileList,
+          thumbnail: data.thumbsFilePath,
+          duration: data.fileDuration,
+        };
+      });
+    }
+  };
 
   handleUpload = async info => {
     const { status } = info.file;
@@ -138,74 +181,82 @@ class UploadVideoPage extends React.Component {
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    return (
-      <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <Title level={2}> Upload Video</Title>
-        </div>
+    const { visible, onCancel } = this.props;
 
-        <Form onSubmit={this.onSubmit}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Upload
-              action=""
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleUpload}
-              headers={this.headers}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal
-              visible={previewVisible}
-              footer={null}
-              onCancel={this.handleCancel}
-            >
-              <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
+    return (
+        <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <Title level={2}> Details </Title>
           </div>
 
-          <br />
-          <br />
-          <label>Title</label>
-          <Input onChange={this.handleChangeTitle} value={this.state.title} />
-          <br />
-          <br />
-          <label>Description</label>
-          <TextArea
-            onChange={this.handleChangeDecsription}
-            value={this.state.description}
-          />
-          <br />
-          <br />
+          <Form onSubmit={this.onSubmit}>
+            <label>ThumbNails</label>
+            <br />
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Upload
+                action=""
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={this.handlePreview}
+                onChange={this.handleUpload}
+                headers={this.headers}
+              >
+                {fileList.length >= 8 ? null : uploadButton}
+              </Upload>
+              <Modal
+                visible={previewVisible}
+                footer={null}
+                onCancel={this.handleCancel}
+              >
+                <img
+                  alt="example"
+                  style={{ width: '100%' }}
+                  src={previewImage}
+                />
+              </Modal>
+            </div>
 
-          <select onChange={this.handleChangeOne}>
-            {Private.map((item, index) => (
-              <option key={index} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-          <br />
-          <br />
+            <br />
+            <br />
+            <label>Title</label>
+            <Input onChange={this.handleChangeTitle} value={this.state.title} />
+            <br />
+            <br />
+            <label>Description</label>
+            <TextArea
+              onChange={this.handleChangeDecsription}
+              value={this.state.description}
+            />
+            <br />
+            <br />
 
-          <select onChange={this.handleChangeTwo}>
-            {Catogory.map((item, index) => (
-              <option key={index} value={item.label}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-          <br />
-          <br />
+            <select onChange={this.handleChangeOne}>
+              {Private.map((item, index) => (
+                <option key={index} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <br />
+            <br />
 
-          <Button type="primary" size="large" onClick={this.onSubmit}>
-            Submit
-          </Button>
-        </Form>
-      </div>
+            <select onChange={this.handleChangeTwo}>
+              {Catogory.map((item, index) => (
+                <option key={index} value={item.label}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <br />
+            <br />
+
+            <Button type="primary" size="large" onClick={this.onSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </div>
     );
   }
 }
 
-export default UploadVideoPage;
+export default UploadVideoDetailsPage;

@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
-const ffmpeg = require('fluent-ffmpeg');
+const Video = require('../models/Video');
+const VideoService = require('../services/VideoService');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -26,6 +27,11 @@ const uploadVideo = (req, res) => {
     if (err) {
       return res.json({ success: false, err });
     }
+    try {
+      VideoService.generateThumbnail(res.req.file.path);
+    } catch (error) {
+      console.log(error);
+    }
     return res.json({
       success: true,
       filePath: res.req.file.path,
@@ -35,40 +41,22 @@ const uploadVideo = (req, res) => {
 };
 
 const getThumbnail = (req, res) => {
-  let thumbsFilePath = '';
-  let fileDuration = '';
+  //
+};
+const submitVideo = async (req, res) => {
+  const video = new Video(req.body);
 
-  ffmpeg.ffprobe(req.body.filePath, (err, metadata) => {
-    // console.dir(metadata);
-    // console.log(metadata.format.duration);
-
-    fileDuration = metadata.format.duration;
-  });
-
-  ffmpeg(req.body.filePath)
-    .on('filenames', filenames => {
-      console.log(`Will generate ${filenames.join(', ')}`);
-      thumbsFilePath = `uploads/thumbnails/${filenames[0]}`;
-    })
-    .on('end', () => {
-      console.log('Screenshots taken');
-      return res.json({
-        success: true,
-        thumbsFilePath: thumbsFilePath,
-        fileDuration: fileDuration,
-      });
-    })
-    .screenshots({
-      // Will take screens at 20%, 40%, 60% and 80% of the video
-      count: 3,
-      folder: 'uploads/thumbnails',
-      size: '320x240',
-      // %b input basename ( filename w/o extension )
-      filename: 'thumbnail-%b.png',
+  try {
+    const savedVideo = await video.save();
+    return res.status(200).json({
+      success: true,
     });
+  } catch (error) {
+    return res.status(400).json({ success: false, error });
+  }
 };
 
 module.exports = {
   uploadVideo,
-  getThumbnail,
+  submitVideo,
 };

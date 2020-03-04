@@ -10,4 +10,6 @@ router.post('/upload', passportJWT, VideoController.uploadVideo);
 
 router.post('/thumbnail', passportJWT, VideoController.getThumbnail);
 
+router.post('/submitVideo', passportJWT, VideoController.submitVideo);
+
 module.exports = router;
