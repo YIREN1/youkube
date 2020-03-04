@@ -22,6 +22,7 @@ class UploadVideoModal extends React.Component {
     if (status === 'done') {
       message.success(`${info.file.name} file uploaded successfully.`);
       const { response } = info.file;
+      this.props.handleChangeTitle(info.file.name);
       let payload = {
         filePath: response.filePath,
         fileName: response.fileName,

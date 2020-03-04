@@ -33,15 +33,15 @@ class UploadVideoDetailsPage extends React.Component {
     this.headers.Authorization = token;
 
     this.state = {
-      title: '',
+      title: this.props.title,
       description: '',
       categories: '',
       privacy: '',
-      filePath: '',
-      duration: '',
+      filePath: this.props.filePath,
+      duration: this.props.duration,
       previewVisible: false,
       previewImage: '',
-      fileList: [],
+      fileList: this.props.thumbnailList,
     };
   }
 
@@ -98,12 +98,20 @@ class UploadVideoDetailsPage extends React.Component {
     ) {
       return alert('Please first fill all the fields');
     }
-    const payload = {};
+    const payload = {
+      title: this.state.title,
+      description: this.state.description,
+      categories: this.state.categories,
+      privacy: this.state.privacy,
+      filePath: this.state.filePath,
+      duration: this.state.duration,
+      thumbnail: this.state.thumbnailList[0],
+    };
 
-    const response = await axios.post('/api/video/uploadVideo', payload);
+    const response = await axios.post('/video/submitVideo', payload);
 
     if (response.data.success) {
-      alert('video Uploaded Successfully');
+      message.success(`submit successfully.`);
       // props.history.push('/');
     } else {
       alert('Failed to upload video');
@@ -184,77 +192,74 @@ class UploadVideoDetailsPage extends React.Component {
     const { visible, onCancel } = this.props;
 
     return (
-        <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <Title level={2}> Details </Title>
+      <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <Title level={2}> Details </Title>
+        </div>
+
+        <Form onSubmit={this.onSubmit}>
+          <label>ThumbNails</label>
+          <br />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Upload
+              action=""
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={this.handlePreview}
+              onChange={this.handleUpload}
+              headers={this.headers}
+            >
+              {/* todo */}
+              {/* {fileList.length >= 8 ? null : uploadButton} */}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              footer={null}
+              onCancel={this.handleCancel}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
           </div>
 
-          <Form onSubmit={this.onSubmit}>
-            <label>ThumbNails</label>
-            <br />
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Upload
-                action=""
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={this.handlePreview}
-                onChange={this.handleUpload}
-                headers={this.headers}
-              >
-                {fileList.length >= 8 ? null : uploadButton}
-              </Upload>
-              <Modal
-                visible={previewVisible}
-                footer={null}
-                onCancel={this.handleCancel}
-              >
-                <img
-                  alt="example"
-                  style={{ width: '100%' }}
-                  src={previewImage}
-                />
-              </Modal>
-            </div>
+          <br />
+          <br />
+          <label>Title</label>
+          <Input onChange={this.handleChangeTitle} value={this.state.title} />
+          <br />
+          <br />
+          <label>Description</label>
+          <TextArea
+            onChange={this.handleChangeDecsription}
+            value={this.state.description}
+          />
+          <br />
+          <br />
 
-            <br />
-            <br />
-            <label>Title</label>
-            <Input onChange={this.handleChangeTitle} value={this.state.title} />
-            <br />
-            <br />
-            <label>Description</label>
-            <TextArea
-              onChange={this.handleChangeDecsription}
-              value={this.state.description}
-            />
-            <br />
-            <br />
+          <select onChange={this.handleChangeOne}>
+            {Private.map((item, index) => (
+              <option key={index} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+          <br />
+          <br />
 
-            <select onChange={this.handleChangeOne}>
-              {Private.map((item, index) => (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <br />
-            <br />
+          <select onChange={this.handleChangeTwo}>
+            {Catogory.map((item, index) => (
+              <option key={index} value={item.label}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+          <br />
+          <br />
 
-            <select onChange={this.handleChangeTwo}>
-              {Catogory.map((item, index) => (
-                <option key={index} value={item.label}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <br />
-            <br />
-
-            <Button type="primary" size="large" onClick={this.onSubmit}>
-              Submit
-            </Button>
-          </Form>
-        </div>
+          <Button type="primary" size="large" onClick={this.onSubmit}>
+            Submit
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

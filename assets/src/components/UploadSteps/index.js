@@ -1,29 +1,43 @@
 import { Steps, Button, message, Modal } from 'antd';
 import React from 'react';
-import UploadVideoModal from '../UploadVideoModal';
-import UploadVideoDetailsPage from '../UploadVideoDetailsPage';
+import UploadVideoModal from './steps/UploadVideoModal';
+import UploadVideoDetailsPage from './steps/UploadVideoDetailsPage';
 
 const { Step } = Steps;
 
 class UploadSteps extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { current: 0 };
+    this.state = {
+      current: 0,
+      title: '',
+      filePath: '',
+      duration: '',
+      thumbnailList: [],
+    };
   }
   next() {
     const current = this.state.current + 1;
     this.setState({ current });
   }
+  handleChange = newState=> {
+    this.setState({ ...newState });
+  };
 
   render() {
     const steps = [
       {
         title: 'Upload',
-        content: <UploadVideoModal onFinish={this.next.bind(this)} />,
+        content: (
+          <UploadVideoModal
+            handleChange={this.handleChange}
+            onFinish={this.next.bind(this)}
+          />
+        ),
       },
       {
         title: 'Details',
-        content: <UploadVideoDetailsPage />,
+        content: <UploadVideoDetailsPage {...this.state}  />,
       },
       {
         title: 'Finish',
