@@ -7,10 +7,12 @@ const subscribeSchema = mongoose.Schema(
     userTo: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      require: true,
     },
     userFrom: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      require: true,
     },
   },
   { timestamps: true },

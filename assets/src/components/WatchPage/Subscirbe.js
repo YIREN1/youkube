@@ -10,7 +10,7 @@ videoAxios.interceptors.request.use(config => {
 
 function Subscirbe(props) {
   const userTo = props.userTo;
-  const userFrom = props.userFrom;
+  const userFrom = JSON.parse(localStorage.getItem('user')).id;
   const [state, setState] = useState({
     isSubscribed: false,
     subscriberCount: 0,
