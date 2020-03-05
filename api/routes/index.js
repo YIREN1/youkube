@@ -7,6 +7,7 @@ const routes = express.Router();
 
 const users = require('./users');
 const video = require('./video');
+const subscribe = require('./subscribe');
 
 // Set static files
 routes.use(express.static(path.join(__dirname, '../../public')));
@@ -22,6 +23,8 @@ routes.use(express.urlencoded({ extended: true }));
 routes.use(morgan('dev'));
 routes.use('/users', users);
 routes.use('/video', video);
+routes.use('/subscription', subscribe);
+
 routes.use('/uploads', express.static('uploads/'));
 routes.get('/status/health', (req, res) => {
   res.send('GOOD');

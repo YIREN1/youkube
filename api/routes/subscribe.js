@@ -6,14 +6,16 @@ const SubscribeController = require('../controllers/SubscribeController');
 
 const passportJWT = passport.authenticate('jwt', { session: false });
 
-router.post('/subscribe', passportJWT, SubscribeController.uploadVideo);
+router.post('/subscribe', passportJWT, SubscribeController.subscribe);
 
-router.post('/unsubscribe', passportJWT, SubscribeController.getThumbnail);
+router.post('/unsubscribe', passportJWT, SubscribeController.unsubscribe);
 
-router.post('/submitVideo', passportJWT, SubscribeController.submitVideo);
+router.get(
+  '/getSubscriberCount',
+  passportJWT,
+  SubscribeController.getSubscriberCount,
+);
 
-router.get('/getVideos', passportJWT, SubscribeController.getVideos);
-
-router.get('/getVideo/:videoId', SubscribeController.getVideo);
+router.get('/isSubscribed', passportJWT, SubscribeController.isSubscribed);
 
 module.exports = router;
