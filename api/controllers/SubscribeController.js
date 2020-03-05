@@ -2,8 +2,11 @@ const Subscribe = require('../models/Subscribe');
 
 const getSubscriberCount = async (req, res) => {
   try {
-    const savedSubscribe = await new Subscribe(req.body).save();
-    return res.status(200).json({ success: true });
+    const userTo = req.param('userTo');
+    const subscriberCount = await Subscribe.countDocuments({
+      userTo,
+    });
+    return res.status(200).json({ success: true, subscriberCount });
   } catch (error) {
     return res.json({ success: false, error });
   }
@@ -11,14 +14,17 @@ const getSubscriberCount = async (req, res) => {
 
 const isSubscribed = async (req, res) => {
   try {
+    const userTo = req.param('userTo');
+    const userFrom = req.param('userFrom');
+
     const subscribes = await Subscribe.find({
-      userTo: req.body.userTo,
-      userFrom: req.body.userFrom,
+      userTo,
+      userFrom,
     }).exec();
 
     return res
       .status(200)
-      .json({ success: true, isSubscribed: subscribes !== 0 });
+      .json({ success: true, isSubscribed: subscribes.length !== 0 });
   } catch (error) {
     return res.json({ success: false, error });
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideos from './SideVideos';
+import Subscribe from './Subscirbe';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -40,19 +41,16 @@ class WatchPage extends React.Component {
               ></video>
 
               <List.Item
-              // actions={
-              //   [
-              // <LikeDislikes
-              //   video
-              //   videoId={videoId}
-              //   userId={localStorage.getItem('userId')}
-              // />,
-              // <Subscriber
-              //   userTo={this.state.video.author.id}
-              //   userFrom={localStorage.getItem('userId')}
-              // />,
-              //   ]
-              // }
+                actions={[
+                  // <LikeDislikes
+                  //   video
+                  //   videoId={videoId}
+                  //   userId={localStorage.getItem('userId')}
+                  // />,
+                  <Subscribe
+                    userTo={this.state.video.author.id}
+                  />,
+                ]}
               >
                 <List.Item.Meta
                   avatar={

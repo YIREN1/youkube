@@ -8,7 +8,7 @@ const passportJWT = passport.authenticate('jwt', { session: false });
 
 router.post('/subscribe', passportJWT, SubscribeController.subscribe);
 
-router.post('/unsubscribe', passportJWT, SubscribeController.unsubscribe);
+router.post('/unsubscribe', passportJWT, SubscribeController.unSubscribe);
 
 router.get(
   '/getSubscriberCount',
