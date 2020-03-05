@@ -35,7 +35,7 @@ class WatchPage extends React.Component {
             >
               <video
                 style={{ width: '100%' }}
-                src={`http://localhost:1337/${this.state.video.filePath}`}
+                src={`http://localhost:1338/${this.state.video.filePath}`}
                 controls
               ></video>
 

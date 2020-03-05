@@ -129,7 +129,7 @@ class UploadVideoDetailsPage extends React.Component {
   //       const originalFileList = preState.fileList;
   //       originalFileList[
   //         originalFileList.length - 1
-  //       ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
+  //       ].thumbUrl = `http://localhost:1338/${data.thumbsFilePath}`;
   //       return {
   //         fileList: originalFileList,
   //         thumbnail: data.thumbsFilePath,
@@ -165,7 +165,7 @@ class UploadVideoDetailsPage extends React.Component {
             const originalFileList = preState.fileList;
             originalFileList[
               originalFileList.length - 1
-            ].thumbUrl = `http://localhost:1337/${data.thumbsFilePath}`;
+            ].thumbUrl = `http://localhost:1338/${data.thumbsFilePath}`;
             return {
               fileList: originalFileList,
               thumbnail: data.thumbsFilePath,

@@ -39,7 +39,7 @@ class Home extends React.Component {
               <img
                 style={{ width: '100%' }}
                 alt="thumbnail"
-                src={`http://localhost:1337/${video.thumbnail}`}
+                src={`http://localhost:1338/${video.thumbnail}`}
               />
               <div
                 className=" duration"
