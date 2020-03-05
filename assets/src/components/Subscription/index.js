@@ -14,9 +14,8 @@ class Home extends React.Component {
     this.state = { videos: [] };
   }
   componentDidMount() {
-    videoAxios.get('/video/getVideos').then(response => {
+    videoAxios.get('/video/getSubscriptionVideos').then(response => {
       if (response.data.success) {
-        console.log(response.data.videos);
         this.setState({ videos: response.data.videos });
       } else {
         alert('Failed to get Videos');
@@ -25,7 +24,7 @@ class Home extends React.Component {
   }
 
   render() {
-    return <VideoList videos={this.state.videos} title='Recommended'/>;
+    return <VideoList videos={this.state.videos} title="Subscription" />;
   }
 }
 

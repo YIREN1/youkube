@@ -8,3 +8,4 @@
 - [] clean up upload
 - [] message instead of alert
 - [] thumbnail preview
+- [] user from is req.user

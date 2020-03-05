@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const Video = require('../models/Video');
 const VideoService = require('../services/VideoService');
+const Subscribe = require('../models/Subscribe');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -71,7 +72,7 @@ const getVideos = async (req, res) => {
 
 const getVideo = async (req, res) => {
   try {
-    const videoId = req.param('videoId');
+    const { videoId } = req.params;
     // todo
     const video = await Video.findOne({ _id: videoId })
       .populate('author')
@@ -86,9 +87,29 @@ const getVideo = async (req, res) => {
   }
 };
 
+const getSubscriptionVideos = async (req, res) => {
+  try {
+    const userFrom = req.user;
+    const subscriptions = await Subscribe.find({
+      userFrom,
+    });
+    const subscribedUsers = subscriptions.map(
+      subscription => subscription.userTo,
+    );
+    const videos = await Video.find({
+      author: { $in: subscribedUsers },
+    }).populate('writer');
+
+    res.status(200).json({ success: true, videos });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+
 module.exports = {
   uploadVideo,
   submitVideo,
   getVideos,
   getVideo,
+  getSubscriptionVideos,
 };

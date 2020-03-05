@@ -2,7 +2,7 @@ const Subscribe = require('../models/Subscribe');
 
 const getSubscriberCount = async (req, res) => {
   try {
-    const userTo = req.param('userTo');
+    const { userTo } = req.params;
     const subscriberCount = await Subscribe.countDocuments({
       userTo,
     });
@@ -14,8 +14,8 @@ const getSubscriberCount = async (req, res) => {
 
 const isSubscribed = async (req, res) => {
   try {
-    const userTo = req.param('userTo');
-    const userFrom = req.param('userFrom');
+    const { userTo } = req.params;
+    const { userFrom } = req.params;
 
     const subscribes = await Subscribe.find({
       userTo,

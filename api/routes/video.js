@@ -16,4 +16,10 @@ router.get('/getVideos', passportJWT, VideoController.getVideos);
 
 router.get('/getVideo/:videoId', VideoController.getVideo);
 
+router.get(
+  '/getSubscriptionVideos',
+  passportJWT,
+  VideoController.getSubscriptionVideos,
+);
+
 module.exports = router;
