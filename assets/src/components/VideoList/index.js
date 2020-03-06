@@ -20,7 +20,7 @@ export default class VideoList extends Component {
               <img
                 style={{ width: '100%' }}
                 alt="thumbnail"
-                src={`http://localhost:1338/${video.thumbnail}`}
+                src={`http://localhost:1339/${video.thumbnail}`}
               />
               <div
                 className=" duration"

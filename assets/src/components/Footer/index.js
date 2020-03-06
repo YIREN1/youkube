@@ -1,24 +1,17 @@
 import React from 'react';
 import { GithubOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
+const { Footer } = Layout;
 
-function Footer() {
+function myFooter() {
   return (
-    <div
-      style={{
-        height: '80px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '1rem',
-      }}
-    >
+    <Footer style={{ textAlign: 'center' }}>
       <p> @2020 Yi Ren All Rights reserved</p>
       <a href="https://github.com/YIREN1">
         <GithubOutlined />
       </a>
-    </div>
+    </Footer>
   );
 }
 
-export default Footer;
+export default myFooter;

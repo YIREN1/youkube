@@ -38,7 +38,7 @@ class SideVideos extends React.Component {
             <a href={`/watch/${video.id}`} style={{ color: 'gray' }}>
               <img
                 style={{ width: '100%' }}
-                src={`http://localhost:1338/${video.thumbnail}`}
+                src={`http://localhost:1339/${video.thumbnail}`}
                 alt="thumbnail"
               />
             </a>

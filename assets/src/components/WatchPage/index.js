@@ -4,7 +4,7 @@ import axios from 'axios';
 import SideVideos from './SideVideos';
 import Subscribe from './Subscirbe';
 import Comments from './Comments';
-
+import LikeDislike from './LikeDislike';
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -38,17 +38,16 @@ class WatchPage extends React.Component {
             >
               <video
                 style={{ width: '100%' }}
-                src={`http://localhost:1338/${this.state.video.filePath}`}
+                src={`http://localhost:1339/${this.state.video.filePath}`}
                 controls
               ></video>
 
               <List.Item
                 actions={[
-                  // <LikeDislikes
-                  //   video
-                  //   videoId={videoId}
-                  //   userId={localStorage.getItem('userId')}
-                  // />,
+                  <LikeDislike
+                    // video
+                    videoId={this.state.videoId}
+                  />,
                   <Subscribe userTo={this.state.video.author.id} />,
                 ]}
               >
@@ -67,9 +66,7 @@ class WatchPage extends React.Component {
                 />
               </List.Item>
 
-              <Comments
-                videoId={this.state.video.id}
-              />
+              <Comments videoId={this.state.video.id} />
             </div>
           </Col>
           <Col lg={6} xs={24}>

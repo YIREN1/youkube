@@ -10,4 +10,7 @@
 - [] thumbnail preview
 - [] user from is req.user
 - [] if reply to myself, no @
-- [] 
+- [] side bar
+- [] playlist
+- [] like dislikes
+- []

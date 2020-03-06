@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import LeftMenu from './Sections/LeftMenu';
 import RightMenu from './Sections/RightMenu';
-import { Drawer, Button, Icon } from 'antd';
+import { Drawer, Button, Icon, Layout } from 'antd';
 import './Sections/Navbar.css';
 import { withContext } from '../../context/AppContext';
+const { Header } = Layout;
 
 function NavBar() {
   const [visible, setVisible] = useState(false);
@@ -17,12 +18,17 @@ function NavBar() {
   };
 
   return (
-    <nav
+    <Header
       className="menu"
-      style={{ position: 'fixed', zIndex: 5, width: '100%' }}
+      style={{
+        position: 'fixed',
+        zIndex: 5,
+        width: '100%',
+        background: 'black',
+      }}
     >
       <div className="menu__logo">
-        <a href="/">Logo</a>
+        <a href="/"> </a>
       </div>
       <div className="menu__container">
         <div className="menu_left">
@@ -50,7 +56,7 @@ function NavBar() {
           <RightMenu mode="inline" />
         </Drawer>
       </div>
-    </nav>
+    </Header>
   );
 }
 

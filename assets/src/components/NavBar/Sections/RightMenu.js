@@ -48,7 +48,7 @@ class RightMenu extends React.Component {
     const { isAuthenticated } = this.props;
     if (!isAuthenticated()) {
       return (
-        <Menu mode={this.props.mode}>
+        <Menu mode={this.props.mode} theme="dark">
           <Menu.Item key="signin">
             <a onClick={this.showLoginModal}>Signin</a>
           </Menu.Item>
@@ -67,7 +67,7 @@ class RightMenu extends React.Component {
       );
     } else {
       return (
-        <Menu mode={this.props.mode}>
+        <Menu mode={this.props.mode} theme="dark">
           <Menu.Item key="upload">
             <a onClick={this.showUploadModal}>Uplaod</a>
           </Menu.Item>
