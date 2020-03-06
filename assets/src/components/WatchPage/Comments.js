@@ -57,6 +57,12 @@ function Comments(props) {
       }
     });
   };
+  const updateComment = newComment => {
+    setState(state => ({
+      ...state,
+      commentList: state.commentList.concat(newComment),
+    }));
+  };
   return (
     <div>
       <br />
@@ -72,21 +78,19 @@ function Comments(props) {
                   key={comment.id}
                   comment={comment}
                   videoId={props.videoId}
-                  // refreshFunction={props.refreshFunction}
+                  updateComment={updateComment}
                 />
                 <ReplyComment
                   key={`r${comment.id}`}
                   commentList={state.commentList}
                   videoId={props.videoId}
                   parentCommentId={comment.id}
-                  // refreshFunction={props.refreshFunction}
+                  updateComment={updateComment}
                 />
               </React.Fragment>
             ),
         )}
 
-      {/* Root Comment Form */}
-      {/* <form style={{ display: 'flex' }} onSubmit={onSubmit}> */}
       <TextArea
         autoSize={true}
         value={state.commentContent}
@@ -94,7 +98,6 @@ function Comments(props) {
         onChange={e => handleChange(e)}
         onPressEnter={e => onSubmit(e)}
       />
-      {/* </form> */}
     </div>
   );
 }

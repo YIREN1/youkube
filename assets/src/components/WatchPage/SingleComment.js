@@ -38,7 +38,7 @@ function SingleComment(props) {
       if (response.data.success) {
         setCommentValue('');
         setOpenReply(!OpenReply);
-        // props.refreshFunction(response.data.result);
+        props.updateComment(response.data.savedComment);
       } else {
         alert('Failed to save Comment');
       }

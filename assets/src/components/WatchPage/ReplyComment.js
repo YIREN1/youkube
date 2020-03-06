@@ -24,7 +24,7 @@ function ReplyComment(props) {
               comment={comment}
               videoId={props.videoId}
               parentCommentId={parentCommentId}
-              // refreshFunction={props.refreshFunction}
+              updateComment={props.updateComment}
             />
             {/* <ReplyComment
               commentList={props.commentList}
