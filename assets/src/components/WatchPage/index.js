@@ -3,6 +3,8 @@ import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideos from './SideVideos';
 import Subscribe from './Subscirbe';
+import Comments from './Comments';
+
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -47,9 +49,7 @@ class WatchPage extends React.Component {
                   //   videoId={videoId}
                   //   userId={localStorage.getItem('userId')}
                   // />,
-                  <Subscribe
-                    userTo={this.state.video.author.id}
-                  />,
+                  <Subscribe userTo={this.state.video.author.id} />,
                 ]}
               >
                 <List.Item.Meta
@@ -67,11 +67,9 @@ class WatchPage extends React.Component {
                 />
               </List.Item>
 
-              {/* <Comments
-                CommentLists={CommentLists}
-                postId={this.state.video.id}
-                refreshFunction={updateComment}
-              /> */}
+              <Comments
+                videoId={this.state.video.id}
+              />
             </div>
           </Col>
           <Col lg={6} xs={24}>
