@@ -8,6 +8,7 @@ const routes = express.Router();
 const users = require('./users');
 const video = require('./video');
 const subscribe = require('./subscribe');
+const comment = require('./comment');
 
 // Set static files
 routes.use(express.static(path.join(__dirname, '../../public')));
@@ -24,6 +25,7 @@ routes.use(morgan('dev'));
 routes.use('/users', users);
 routes.use('/video', video);
 routes.use('/subscription', subscribe);
+routes.use('/comment', comment);
 
 routes.use('/uploads', express.static('uploads/'));
 routes.get('/status/health', (req, res) => {

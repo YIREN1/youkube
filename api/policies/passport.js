@@ -17,6 +17,7 @@ module.exports = passport => {
       try {
         const user = await User.findById(jwtPayload.id);
         if (user) {
+          user.password = undefined;
           req.user = user;
           return next(null, user);
         }
