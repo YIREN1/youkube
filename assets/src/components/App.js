@@ -3,12 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import { Layout } from 'antd';
 import LandingPage from './LandingPage';
-import About from './About';
 import Footer from './Footer';
 import ProtectedRoute from '../context/ProtectedRoute';
 import NavBar from './NavBar';
 import Home from './Home';
 import Sidebar from './Sidebar';
+import LikedVideos from './LikedVideos';
 
 import WatchPage from './WatchPage';
 import Subscription from './Subscription';
@@ -30,12 +30,16 @@ const App = () => {
               >
                 <Switch>
                   <Route exact path="/" component={LandingPage} />
-                  <ProtectedRoute exact path="/about" component={About} />
                   <ProtectedRoute exact path="/home" component={Home} />
                   <ProtectedRoute
                     exact
                     path="/subscription"
                     component={Subscription}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/liked"
+                    component={LikedVideos}
                   />
 
                   <Route exact path="/watch/:videoId" component={WatchPage} />

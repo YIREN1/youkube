@@ -38,8 +38,10 @@ function Sidebar() {
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
         <Menu.Item key="1">
-          <PieChartOutlined />
-          <span>Option 1</span>
+          <a href="/liked">
+            <PieChartOutlined />
+            <span>Liked videos</span>
+          </a>
         </Menu.Item>
         <Menu.Item key="2">
           <DesktopOutlined />

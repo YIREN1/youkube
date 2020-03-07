@@ -112,8 +112,16 @@ const getLikedVideos = async (req, res) => {
   try {
     const likedVideos = await Like.find({
       userId: req.user.id,
-    }).populate({ path: 'postId', populate: { path: 'author' } });
-    return res.status(200).json({ success: true, likedVideos });
+      onModel: 'Video',
+      type: 'like',
+    }).populate({
+      path: 'postId',
+      populate: { path: 'author' },
+    });
+    return res.status(200).json({
+      success: true,
+      likedVideos: likedVideos.map(({ postId }) => postId),
+    });
   } catch (error) {
     console.error(error);
     return res.status(400).send(error);
