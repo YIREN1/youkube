@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
 import axios from 'axios';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
@@ -22,7 +22,6 @@ function Comments(props) {
       .get('/comment/getComments', { params: { videoId: props.videoId } })
       .then(response => {
         if (response.data.success) {
-          console.log('response.data.comments', response.data.comments);
           setState(state => ({
             ...state,
             commentList: response.data.comments,

@@ -6,7 +6,7 @@ function ReplyComment(props) {
   const [OpenReplyComments, setOpenReplyComments] = useState(false);
   useEffect(() => {
     let commentNumber = 0;
-    props.commentList.map(comment => {
+    props.commentList.forEach(comment => {
       if (comment.responseTo === props.parentCommentId) {
         commentNumber++;
       }
@@ -20,27 +20,18 @@ function ReplyComment(props) {
         {comment.responseTo === parentCommentId && (
           <div style={{ width: '80%', marginLeft: '40px' }}>
             <SingleComment
-              key={index+comment.id}
+              key={index + comment.id}
               comment={comment}
               videoId={props.videoId}
               parentCommentId={parentCommentId}
               updateComment={props.updateComment}
             />
-            {/* <ReplyComment
-              commentList={props.commentList}
-              parentCommentId={comment.id}
-              postId={props.postId}
-              refreshFunction={props.refreshFunction}
-            /> */}
           </div>
         )}
       </>
     ));
 
-  const handleChange = () => {
-    setOpenReplyComments(!OpenReplyComments);
-  };
-
+  const handleChange = () => setOpenReplyComments(!OpenReplyComments);
   return (
     <div>
       {ChildCommentNumber > 0 && (
@@ -48,7 +39,7 @@ function ReplyComment(props) {
           style={{ fontSize: '14px', margin: 0, color: 'gray' }}
           onClick={handleChange}
         >
-          {!OpenReplyComments?'View':'Hide'} {ChildCommentNumber} replies
+          {!OpenReplyComments ? 'View' : 'Hide'} {ChildCommentNumber} replies
         </p>
       )}
 

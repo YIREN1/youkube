@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Comment, Avatar, Button, Input } from 'antd';
+import { Comment, Avatar, Input } from 'antd';
 import axios from 'axios';
 import LikeDislike from './LikeDislike';
 const { TextArea } = Input;
@@ -19,7 +19,7 @@ function SingleComment(props) {
   };
 
   const toggleReply = () => {
-    if(!OpenReply && props.comment.responseTo) {
+    if (!OpenReply && props.comment.responseTo) {
       setCommentValue(`@${props.comment.author.name} `);
     }
     setOpenReply(!OpenReply);
@@ -47,6 +47,7 @@ function SingleComment(props) {
 
   const actions = [
     <LikeDislike
+      key={`like${props.comment.id}`}
       comment
       commentId={props.comment.id}
     />,
@@ -58,6 +59,7 @@ function SingleComment(props) {
   return (
     <div>
       <Comment
+        key={`c${props.comment.id}`}
         actions={actions}
         author={props.comment.author.name}
         avatar={<Avatar src={props.comment.author.image} alt="image" />}
@@ -66,6 +68,7 @@ function SingleComment(props) {
 
       {OpenReply && (
         <TextArea
+          key={`text${props.comment.id}`}
           autoSize={true}
           onChange={handleChange}
           value={CommentValue}
