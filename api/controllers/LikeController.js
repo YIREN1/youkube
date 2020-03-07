@@ -2,13 +2,13 @@ const { Like } = require('../models/Like');
 
 const getLikesCount = async (req, res) => {
   try {
-    const { videoId } = req.query;
+    const { videoId, commentId } = req.query;
     const likeCount = await Like.countDocuments({
-      videoId,
+      postId: videoId || commentId,
       type: 'like',
     });
     const dislikeCount = await Like.countDocuments({
-      videoId,
+      postId: videoId || commentId,
       type: 'dislike',
     });
     return res.status(200).json({ success: true, likeCount, dislikeCount });
@@ -19,11 +19,11 @@ const getLikesCount = async (req, res) => {
 
 const isLiked = async (req, res) => {
   try {
-    const { videoId } = req.query;
+    const { videoId, commentId } = req.query;
 
     const like = await Like.findOne({
       userId: req.user.id,
-      videoId,
+      postId: videoId || commentId,
     });
     let type = 'none';
     if (like) {
@@ -40,8 +40,7 @@ const like = async (req, res) => {
     const { videoId, commentId, type } = req.body;
     const likeBody = {
       userId: req.user.id,
-      videoId,
-      commentId,
+      postId: videoId || commentId,
     };
     const existingLike = await Like.findOne(likeBody);
     if (existingLike) {
@@ -61,10 +60,10 @@ const like = async (req, res) => {
 
 const removeLike = async (req, res) => {
   try {
-    const { videoId } = req.body;
+    const { videoId, commentId } = req.body;
     const deleted = await Like.findOneAndDelete({
       userId: req.user.id,
-      videoId,
+      postId: videoId || commentId,
     });
     if (!deleted) {
       return res.status(404).json({ success: false, result: 'like not found' });

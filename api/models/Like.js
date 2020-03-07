@@ -9,13 +9,19 @@ const likeSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    commentId: {
+    postId: {
       type: Schema.Types.ObjectId,
-      ref: 'Comment',
-    },
-    videoId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Video',
+      enum: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Comment',
+        },
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Video',
+        },
+      ],
+      required: true,
     },
     type: {
       type: String,

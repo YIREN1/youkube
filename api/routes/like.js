@@ -14,10 +14,4 @@ router.get('/getLikesCount', passportJWT, LikeController.getLikesCount);
 
 router.get('/isLiked', passportJWT, LikeController.isLiked);
 
-// router.post('/dislike', passportJWT, LikeController.dislike);
-
-// router.post('/removeDislike', passportJWT, LikeController.removeDislike);
-
-// router.get('/getDislikes', passportJWT, LikeController.getDislikes);
-
 module.exports = router;
