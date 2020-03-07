@@ -26,7 +26,6 @@ export class AppContextProvider extends Component {
 
   getProfile = () => {
     return authAxios.get('/users/profile').then(response => {
-      console.log(response.data);
       this.setState({ secret: response.data.msg });
       return response;
     });
@@ -34,14 +33,12 @@ export class AppContextProvider extends Component {
 
   register = userInfo => {
     return authAxios.post('/users/register', userInfo).then(response => {
-      console.log(response.data);
       return response.data;
     });
   };
 
   authenticate = credentials => {
     return authAxios.post('/users/authenticate', credentials).then(response => {
-      //  console.log(response.data, 'response.data');
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));

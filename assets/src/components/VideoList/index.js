@@ -14,7 +14,7 @@ export default class VideoList extends Component {
       var seconds = Math.floor(video.duration - minutes * 60);
 
       return (
-        <Col lg={6} md={8} xs={24}>
+        <Col lg={6} md={8} xs={24} key={index}>
           <div style={{ position: 'relative' }}>
             <a href={`/watch/${video.id}`}>
               <img

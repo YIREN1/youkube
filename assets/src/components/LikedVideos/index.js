@@ -8,7 +8,7 @@ videoAxios.interceptors.request.use(config => {
   config.headers.Authorization = token;
   return config;
 });
-class Home extends React.Component {
+class likedVideos extends React.Component {
   constructor(props) {
     super(props);
     this.state = { videos: [] };
@@ -28,4 +28,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default likedVideos;

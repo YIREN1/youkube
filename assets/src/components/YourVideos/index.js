@@ -8,15 +8,15 @@ videoAxios.interceptors.request.use(config => {
   config.headers.Authorization = token;
   return config;
 });
-class Home extends React.Component {
+class YourVideos extends React.Component {
   constructor(props) {
     super(props);
     this.state = { videos: [] };
   }
   componentDidMount() {
-    videoAxios.get('/video/getVideos').then(response => {
+    videoAxios.get('/video/getYourVideos').then(response => {
       if (response.data.success) {
-        this.setState({ videos: response.data.videos });
+        this.setState({ videos: response.data.yourVideos });
       } else {
         alert('Failed to get Videos');
       }
@@ -24,8 +24,8 @@ class Home extends React.Component {
   }
 
   render() {
-    return <VideoList videos={this.state.videos} title='Recommended'/>;
+    return <VideoList videos={this.state.videos} title="Your videos" />;
   }
 }
 
-export default Home;
+export default YourVideos;

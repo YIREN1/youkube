@@ -23,7 +23,6 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const res = await this.props.register(values);
 
         if (res.success) {

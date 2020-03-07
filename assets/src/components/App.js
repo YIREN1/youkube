@@ -9,6 +9,7 @@ import NavBar from './NavBar';
 import Home from './Home';
 import Sidebar from './Sidebar';
 import LikedVideos from './LikedVideos';
+import YourVideos from './YourVideos';
 
 import WatchPage from './WatchPage';
 import Subscription from './Subscription';
@@ -36,11 +37,8 @@ const App = () => {
                     path="/subscription"
                     component={Subscription}
                   />
-                  <ProtectedRoute
-                    exact
-                    path="/liked"
-                    component={LikedVideos}
-                  />
+                  <ProtectedRoute exact path="/liked" component={LikedVideos} />
+                  <ProtectedRoute exact path="/yours" component={YourVideos} />
 
                   <Route exact path="/watch/:videoId" component={WatchPage} />
                 </Switch>

@@ -16,7 +16,6 @@ class SideVideos extends React.Component {
   componentDidMount() {
     videoAxios.get('/video/getVideos').then(response => {
       if (response.data.success) {
-        console.log(response.data.videos);
         this.setState({ videos: response.data.videos });
       } else {
         alert('Failed to get Videos');
