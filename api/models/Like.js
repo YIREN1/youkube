@@ -10,18 +10,14 @@ const likeSchema = mongoose.Schema(
       required: true,
     },
     postId: {
+      refPath: 'onModel',
       type: Schema.Types.ObjectId,
-      enum: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Comment',
-        },
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Video',
-        },
-      ],
       required: true,
+    },
+    onModel: {
+      type: String,
+      required: true,
+      enum: ['Comment', 'Video'],
     },
     type: {
       type: String,
@@ -34,4 +30,4 @@ const likeSchema = mongoose.Schema(
 
 const Like = mongoose.model('Like', likeSchema);
 
-module.exports = { Like };
+module.exports = Like;

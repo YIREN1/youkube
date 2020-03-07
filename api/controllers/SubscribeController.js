@@ -2,7 +2,7 @@ const Subscribe = require('../models/Subscribe');
 
 const getSubscriberCount = async (req, res) => {
   try {
-    const { userTo } = req.params;
+    const { userTo } = req.query;
     const subscriberCount = await Subscribe.countDocuments({
       userTo,
     });
@@ -14,13 +14,12 @@ const getSubscriberCount = async (req, res) => {
 
 const isSubscribed = async (req, res) => {
   try {
-    const { userTo } = req.params;
-    const { userFrom } = req.params;
-
+    const { userTo } = req.query;
+    const userFrom = req.user.id;
     const subscribes = await Subscribe.find({
       userTo,
       userFrom,
-    }).exec();
+    });
 
     return res
       .status(200)
@@ -32,6 +31,10 @@ const isSubscribed = async (req, res) => {
 
 const subscribe = async (req, res) => {
   try {
+    const existingSubscribes = await Subscribe.findOne(req.body);
+    if (existingSubscribes) {
+      return res.status(200).json({ success: true });
+    }
     const savedSubscribe = await new Subscribe(req.body).save();
     return res.status(200).json({ success: true });
   } catch (error) {
@@ -43,7 +46,7 @@ const unSubscribe = async (req, res) => {
   try {
     const deleted = await Subscribe.findOneAndDelete({
       userTo: req.body.userTo,
-      userFrom: req.body.userFrom,
+      userFrom: req.user.id,
     }).exec();
 
     return res.status(200).json({ success: true, result: deleted });

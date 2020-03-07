@@ -8,9 +8,9 @@
 - [] clean up upload
 - [] message instead of alert
 - [] thumbnail preview
-- [] user from is req.user
+- [] user from is req.user(subscribecontroller, userfrom)
 - [] if reply to myself, no @
 - [] side bar
 - [] playlist
-- [] like dislikes
-- []
+- [x] like dislikes
+- [] move video further right

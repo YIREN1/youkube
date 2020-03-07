@@ -1,6 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const Video = require('../models/Video');
+const Like = require('../models/Like');
+
 const VideoService = require('../services/VideoService');
 const Subscribe = require('../models/Subscribe');
 
@@ -106,10 +108,23 @@ const getSubscriptionVideos = async (req, res) => {
   }
 };
 
+const getLikedVideos = async (req, res) => {
+  try {
+    const likedVideos = await Like.find({
+      userId: req.user.id,
+    }).populate({ path: 'postId', populate: { path: 'author' } });
+    return res.status(200).json({ success: true, likedVideos });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).send(error);
+  }
+};
+
 module.exports = {
   uploadVideo,
   submitVideo,
   getVideos,
   getVideo,
   getSubscriptionVideos,
+  getLikedVideos,
 };

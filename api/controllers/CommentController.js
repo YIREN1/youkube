@@ -1,12 +1,10 @@
 const Comment = require('../models/Comment');
-// const User = require('../models/User');
 
 const saveComment = async (req, res) => {
   try {
     const comment = new Comment(req.body);
     comment.author = req.user.id;
     const savedComment = await comment.save();
-    // const author = User.findOne({ id: savedComment.author });
     savedComment.author = req.user;
     return res.status(200).json({ success: true, savedComment });
   } catch (error) {

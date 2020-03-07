@@ -10,7 +10,6 @@ videoAxios.interceptors.request.use(config => {
 
 function Subscirbe(props) {
   const userTo = props.userTo;
-  const userFrom = JSON.parse(localStorage.getItem('user')).id;
   const [state, setState] = useState({
     isSubscribed: false,
     subscriberCount: 0,
@@ -19,7 +18,6 @@ function Subscirbe(props) {
   const onSubscribe = () => {
     let subscribePayload = {
       userTo: userTo,
-      userFrom: userFrom,
     };
 
     if (state.isSubscribed) {
@@ -69,7 +67,7 @@ function Subscirbe(props) {
       });
 
     videoAxios
-      .get('/subscription/isSubscribed', { params: { userTo, userFrom } })
+      .get('/subscription/isSubscribed', { params: { userTo } })
       .then(response => {
         if (response.data.success) {
           setState(state => ({
@@ -80,7 +78,7 @@ function Subscirbe(props) {
           alert('Failed to get Subscribed Information');
         }
       });
-  }, [userFrom, userTo]);
+  }, [userTo]);
   return (
     <div>
       <button
