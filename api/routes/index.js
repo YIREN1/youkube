@@ -12,7 +12,7 @@ const comment = require('./comment');
 const like = require('./like');
 
 // Set static files
-routes.use(express.static(path.join(__dirname, '../../public')));
+routes.use(express.static(path.join(__dirname, '../../assets/build')));
 
 // Passport Middleware
 routes.use(passport.initialize());

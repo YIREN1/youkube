@@ -76,12 +76,12 @@ const getVideo = async (req, res) => {
   try {
     const { videoId } = req.params;
     // todo
-    const video = await Video.findOne({ _id: videoId })
-      .populate('author')
-      .exec();
+    const video = await Video.findOne({ _id: videoId }).populate('author');
     if (!video) {
       return res.status(404).send('video not found');
     }
+    video.views += 1;
+    await video.save();
     return res.status(200).json({ success: true, video });
   } catch (error) {
     console.error(error);
@@ -100,7 +100,7 @@ const getSubscriptionVideos = async (req, res) => {
     );
     const videos = await Video.find({
       author: { $in: subscribedUsers },
-    }).populate('writer');
+    }).populate('author');
 
     res.status(200).json({ success: true, videos });
   } catch (error) {
@@ -128,6 +128,21 @@ const getLikedVideos = async (req, res) => {
   }
 };
 
+const getYourVideos = async (req, res) => {
+  try {
+    const yourVideos = await Video.find({
+      author: req.user.id,
+    }).populate('author');
+    return res.status(200).json({
+      success: true,
+      yourVideos,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).send(error);
+  }
+};
+
 module.exports = {
   uploadVideo,
   submitVideo,
@@ -135,4 +150,5 @@ module.exports = {
   getVideo,
   getSubscriptionVideos,
   getLikedVideos,
+  getYourVideos,
 };

@@ -15,6 +15,8 @@ router.post('/submitVideo', passportJWT, VideoController.submitVideo);
 router.get('/getVideos', passportJWT, VideoController.getVideos);
 router.get('/getLikedVideos', passportJWT, VideoController.getLikedVideos);
 
+router.get('/getYourVideos', passportJWT, VideoController.getYourVideos);
+
 router.get('/getVideo/:videoId', VideoController.getVideo);
 
 router.get(
