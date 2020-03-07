@@ -7,6 +7,7 @@ const likeSchema = mongoose.Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     commentId: {
       type: Schema.Types.ObjectId,
@@ -15,6 +16,11 @@ const likeSchema = mongoose.Schema(
     videoId: {
       type: Schema.Types.ObjectId,
       ref: 'Video',
+    },
+    type: {
+      type: String,
+      enum: ['like', 'dislike'],
+      required: true,
     },
   },
   { timestamps: true },
