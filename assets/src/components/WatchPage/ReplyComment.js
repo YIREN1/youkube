@@ -20,7 +20,7 @@ function ReplyComment(props) {
         {comment.responseTo === parentCommentId && (
           <div style={{ width: '80%', marginLeft: '40px' }}>
             <SingleComment
-              key={comment.id}
+              key={index+comment.id}
               comment={comment}
               videoId={props.videoId}
               parentCommentId={parentCommentId}

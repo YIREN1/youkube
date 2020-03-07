@@ -75,13 +75,13 @@ function Comments(props) {
             !comment.responseTo && (
               <React.Fragment>
                 <SingleComment
-                  key={comment.id}
+                  key={`${comment.id}${index}`}
                   comment={comment}
                   videoId={props.videoId}
                   updateComment={updateComment}
                 />
                 <ReplyComment
-                  key={`r${comment.id}`}
+                  key={`rply${comment.id}${index}`}
                   commentList={state.commentList}
                   videoId={props.videoId}
                   parentCommentId={comment.id}

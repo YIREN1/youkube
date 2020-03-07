@@ -15,11 +15,11 @@ function LikeDislike(props) {
     isLiked: false,
     isDisliked: false,
   });
-  const { videoId } = props;
+  const { videoId, commentId } = props;
 
   useEffect(() => {
     likeAxios
-      .get('/like/getLikesCount', { params: { videoId: props.videoId } })
+      .get('/like/getLikesCount', { params: { videoId, commentId } })
       .then(response => {
         if (response.data.success) {
           setState(state => ({
@@ -33,7 +33,7 @@ function LikeDislike(props) {
       });
 
     likeAxios
-      .get('/like/isLiked', { params: { videoId: props.videoId } })
+      .get('/like/isLiked', { params: { videoId, commentId } })
       .then(response => {
         if (response.data.success) {
           setState(state => ({
@@ -45,79 +45,87 @@ function LikeDislike(props) {
           alert('Failed to get likes');
         }
       });
-  }, [props.userId, props.videoId]);
+  }, [commentId, props.userId, props.videoId, videoId]);
   const onLike = () => {
     if (!state.isLiked) {
-      likeAxios.post('/like/like', { videoId, type: 'like' }).then(response => {
-        if (response.data.success) {
-          setState(state => ({
-            ...state,
-            isLiked: true,
-            likeCount: state.likeCount + 1,
-          }));
-
-          //If dislike button is already clicked
-
-          if (state.isDisliked) {
+      likeAxios
+        .post('/like/like', { videoId, commentId, type: 'like' })
+        .then(response => {
+          if (response.data.success) {
             setState(state => ({
               ...state,
-              isDisliked: false,
-              dislikeCount: state.dislikeCount - 1,
+              isLiked: true,
+              likeCount: state.likeCount + 1,
             }));
+
+            //If dislike button is already clicked
+
+            if (state.isDisliked) {
+              setState(state => ({
+                ...state,
+                isDisliked: false,
+                dislikeCount: state.dislikeCount - 1,
+              }));
+            }
+          } else {
+            alert('Failed to increase the like');
           }
-        } else {
-          alert('Failed to increase the like');
-        }
-      });
+        });
     } else {
-      likeAxios.post('/like/removeLike', { videoId }).then(response => {
-        if (response.data.success) {
-          setState(state => ({
-            ...state,
-            isLiked: false,
-            likeCount: state.likeCount - 1,
-          }));
-        } else {
-          alert('Failed to decrease the like');
-        }
-      });
-    }
-  };
-  const onDislike = () => {
-    if (!state.isDisliked) {
-      likeAxios.post('/like/like', { videoId, type: 'dislike' }).then(response => {
-        if (response.data.success) {
-          setState(state => ({
-            ...state,
-            isDisliked: true,
-            dislikeCount: state.dislikeCount + 1,
-          }));
-
-          //If like button is already clicked
-
-          if (state.isLiked) {
+      likeAxios
+        .post('/like/removeLike', { videoId, commentId })
+        .then(response => {
+          if (response.data.success) {
             setState(state => ({
               ...state,
               isLiked: false,
               likeCount: state.likeCount - 1,
             }));
+          } else {
+            alert('Failed to decrease the like');
           }
-        } else {
-          alert('Failed to increase the like');
-        }
-      });
+        });
+    }
+  };
+  const onDislike = () => {
+    if (!state.isDisliked) {
+      likeAxios
+        .post('/like/like', { videoId, commentId, type: 'dislike' })
+        .then(response => {
+          if (response.data.success) {
+            setState(state => ({
+              ...state,
+              isDisliked: true,
+              dislikeCount: state.dislikeCount + 1,
+            }));
+
+            //If like button is already clicked
+
+            if (state.isLiked) {
+              setState(state => ({
+                ...state,
+                isLiked: false,
+                likeCount: state.likeCount - 1,
+              }));
+            }
+          } else {
+            alert('Failed to increase the like');
+          }
+        });
     } else {
-      likeAxios.post('/like/removeLike', { videoId }).then(response => {
-        if (response.data.success) {
-          setState(state => ({
-            ...state,
-            isDisliked: false,
-            dislikeCount: state.dislikeCount - 1,
-          }));
-        } else {
-          alert('Failed to decrease the like');
-        }
-      });
+      likeAxios
+        .post('/like/removeLike', { videoId, commentId })
+        .then(response => {
+          if (response.data.success) {
+            setState(state => ({
+              ...state,
+              isDisliked: false,
+              dislikeCount: state.dislikeCount - 1,
+            }));
+          } else {
+            alert('Failed to decrease the like');
+          }
+        });
     }
   };
   return (

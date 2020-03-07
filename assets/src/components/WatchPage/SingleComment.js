@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Comment, Avatar, Button, Input } from 'antd';
 import axios from 'axios';
-// import LikeDislikes from './LikeDislikes';
+import LikeDislike from './LikeDislike';
 const { TextArea } = Input;
 const commentAxios = axios.create();
 
@@ -46,11 +46,10 @@ function SingleComment(props) {
   };
 
   const actions = [
-    // <LikeDislikes
-    //   comment
-    //   commentId={props.comment.id}
-    //   userId={localStorage.getItem('userId')}
-    // />,
+    <LikeDislike
+      comment
+      commentId={props.comment.id}
+    />,
     <span onClick={toggleReply} key="comment-basic-reply-to">
       Reply{' '}
     </span>,
