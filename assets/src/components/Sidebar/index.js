@@ -1,6 +1,5 @@
 import { Layout, Menu } from 'antd';
 import {
-  DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
@@ -13,15 +12,15 @@ const { SubMenu } = Menu;
 
 function Sidebar() {
   const [state, setState] = useState({
-    collapsed: true,
+    collapsed: false,
   });
 
   const onCollapse = collapsed => {
-    console.log(collapsed);
     setState({ collapsed });
   };
   return (
     <Sider
+      collapsedWidth={0}
       collapsible
       collapsed={state.collapsed}
       onCollapse={onCollapse}
@@ -32,7 +31,7 @@ function Sidebar() {
         left: 0,
         float: 'left',
         paddingTop: '60px',
-        zIndex: 6,
+        zIndex: 4,
       }}
     >
       <div className="logo" />
@@ -44,8 +43,10 @@ function Sidebar() {
           </a>
         </Menu.Item>
         <Menu.Item key="2">
-          <DesktopOutlined />
-          <span>Option 2</span>
+          <a href="/yours">
+            <PieChartOutlined />
+            <span>Your videos</span>
+          </a>
         </Menu.Item>
         <SubMenu
           key="sub1"

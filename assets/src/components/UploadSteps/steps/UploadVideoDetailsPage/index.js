@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, Form, message, Upload, Input, Modal } from 'antd';
 import axios from 'axios';
-import { PlusOutlined } from '@ant-design/icons';
+// import { PlusOutlined } from '@ant-design/icons';
 import './style.css';
 const videoAxios = axios.create();
 
@@ -73,7 +73,6 @@ class UploadVideoDetailsPage extends React.Component {
   };
 
   handleChangeDecsription = event => {
-    console.log({ description: event.currentTarget.value });
 
     this.setState({ description: event.currentTarget.value });
   };
@@ -112,32 +111,11 @@ class UploadVideoDetailsPage extends React.Component {
 
     if (response.data.success) {
       message.success(`submit successfully.`);
-      // props.history.push('/');
+      this.props.onFinish();
     } else {
       alert('Failed to upload video');
     }
   };
-
-  // getThumbnailsForVideo = async () => {
-  //   const payload = {};
-  //   const res = await videoAxios.post('/video/thumbnail', payload);
-  //   const { data } = res;
-  //   if (data.success) {
-  //     this.setState({});
-
-  //     this.setState(preState => {
-  //       const originalFileList = preState.fileList;
-  //       originalFileList[
-  //         originalFileList.length - 1
-  //       ].thumbUrl = `http://localhost:1339/${data.thumbsFilePath}`;
-  //       return {
-  //         fileList: originalFileList,
-  //         thumbnail: data.thumbsFilePath,
-  //         duration: data.fileDuration,
-  //       };
-  //     });
-  //   }
-  // };
   // not used
   handleUpload = async info => {
     const { status } = info.file;
@@ -183,12 +161,12 @@ class UploadVideoDetailsPage extends React.Component {
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = (
-      <div>
-        <PlusOutlined />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
+    // const uploadButton = (
+    //   <div>
+    //     <PlusOutlined />
+    //     <div className="ant-upload-text">Upload</div>
+    //   </div>
+    // );
 
     return (
       <div style={{ maxWidth: '700px', margin: '2rem auto' }}>

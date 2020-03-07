@@ -1,4 +1,4 @@
-import { Steps, message, Modal } from 'antd';
+import { Steps, Result, Modal } from 'antd';
 import React from 'react';
 import UploadVideoModal from './steps/UploadVideoModal';
 import UploadVideoDetailsPage from './steps/UploadVideoDetailsPage';
@@ -20,7 +20,7 @@ class UploadSteps extends React.Component {
     const current = this.state.current + 1;
     this.setState({ current });
   }
-  handleChange = newState=> {
+  handleChange = newState => {
     this.setState({ ...newState });
   };
 
@@ -37,11 +37,23 @@ class UploadSteps extends React.Component {
       },
       {
         title: 'Details',
-        content: <UploadVideoDetailsPage {...this.state} />,
+        content: (
+          <UploadVideoDetailsPage
+            {...this.state}
+            onFinish={this.next.bind(this)}
+          />
+        ),
       },
       {
         title: 'Finish',
-        content: 'Last-content',
+        content: (
+          <Result
+            status="success"
+            title="Successfully published video!"
+            subTitle=""
+            extra={[]}
+          />
+        ),
       },
     ];
     const { current } = this.state;
