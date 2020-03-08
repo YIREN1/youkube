@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, Avatar, Row, Col } from 'antd';
+// import VideoPlayer from '../common/VideoPlayer';
 import axios from 'axios';
 import SideVideos from './SideVideos';
 import Subscribe from './Subscirbe';
@@ -20,17 +21,31 @@ class WatchPage extends React.Component {
   componentDidMount() {
     axios.get(`/video/getVideo/${this.state.videoId}`).then(response => {
       if (response.data.success) {
-        console.log(response.data.video);
         this.setState({ video: response.data.video });
       } else {
         alert('Failed to get video Info');
       }
     });
   }
+  handleKeyPress = event => {
+    if (event.key === 'f') {
+      // todo
+      let elem = document.getElementById('entire');
+      if (!document.fullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  };
   render() {
     if (this.state.video.author) {
       return (
-        <Row>
+        <Row onKeyPress={this.handleKeyPress}>
           <Col lg={18} xs={24}>
             <div
               className="postPage"
@@ -55,7 +70,7 @@ class WatchPage extends React.Component {
                   avatar={
                     <Avatar
                       src={
-                        this.state.video.writer && this.state.video.writer.image
+                        this.state.video.author && this.state.video.author.image
                       }
                     />
                   }

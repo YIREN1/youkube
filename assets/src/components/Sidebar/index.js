@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
 
 function Sidebar() {
   const [state, setState] = useState({
-    collapsed: false,
+    collapsed: true,
   });
 
   const onCollapse = collapsed => {

@@ -1,11 +1,12 @@
 # Todo
 
-- [] mutiple thumnails upload
-- [] upload video page button
-- [] thumbnail route on react(it's hardcode localhost)
-- [] navbar -> upload video modal -> details modal
+- [] thumnails upload
+- [] choose thumbnail
+- [x] upload video page button
+- [] thumbnail route on react(it's hardcode localhost) env var
+- [x] navbar -> upload video modal -> details modal
 - [] node error handling
-- [] clean up upload
+- [x] clean up upload
 - [] message instead of alert
 - [] thumbnail preview
 - [] user from is req.user(subscribecontroller, userfrom)
@@ -14,3 +15,9 @@
 - [] playlist
 - [x] like dislikes
 - [] move video further right
+- [] video player
+- [] toggle side bar
+- [] filestack
+- [] user avatar(boilerplate?) not important
+- [] search
+- [] picture in picture when in home

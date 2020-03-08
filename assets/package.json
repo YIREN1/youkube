@@ -46,5 +46,7 @@
     ]
   },
   "proxy": "http://localhost:1339/",
-  "devDependencies": {}
+  "devDependencies": {
+    "video.js": "^7.6.6"
+  }
 }
