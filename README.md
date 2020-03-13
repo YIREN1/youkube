@@ -1,6 +1,8 @@
 # MERN youtube clone
 
-using context API for authentication
+using context API for authentication, use ant.design for UI framework
+
+featuring video uploading, thumbnail generating, comment/reply, like/dislike, subscribe, playlist
 
 ### Run the application for Development
 - yarn install:all
