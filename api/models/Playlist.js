@@ -9,6 +9,10 @@ const PlaylistSchema = mongoose.Schema(
       ref: 'User',
       require: true,
     },
+    name: {
+      type: String,
+      require: true,
+    },
     videoIds: [
       {
         type: Schema.Types.ObjectId,

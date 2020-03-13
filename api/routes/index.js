@@ -10,6 +10,7 @@ const video = require('./video');
 const subscribe = require('./subscribe');
 const comment = require('./comment');
 const like = require('./like');
+const playlist = require('./playlist');
 
 // Set static files
 routes.use(express.static(path.join(__dirname, '../../assets/build')));
@@ -28,6 +29,7 @@ routes.use('/video', video);
 routes.use('/subscription', subscribe);
 routes.use('/comment', comment);
 routes.use('/like', like);
+routes.use('/playlist', playlist);
 
 routes.use('/uploads', express.static('uploads/'));
 routes.get('/status/health', (req, res) => {

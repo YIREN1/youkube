@@ -21,3 +21,5 @@
 - [] user avatar(boilerplate?) not important
 - [] search
 - [] picture in picture when in home
+- [] theater mode
+- []
