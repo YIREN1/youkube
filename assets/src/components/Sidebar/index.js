@@ -1,41 +1,40 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import {
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
+  MenuFoldOutlined,
 } from '@ant-design/icons';
 import React, { useState } from 'react';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Sidebar() {
-  const [state, setState] = useState({
-    collapsed: true,
-  });
-
-  const onCollapse = collapsed => {
-    setState({ collapsed });
-  };
+function Sidebar(props) {
   return (
     <Sider
       collapsedWidth={0}
       collapsible
-      collapsed={state.collapsed}
-      onCollapse={onCollapse}
+      collapsed={props.collapsed}
       style={{
         overflow: 'auto',
         height: '100vh',
         position: 'fixed',
         left: 0,
         float: 'left',
-        paddingTop: '60px',
-        zIndex: 4,
+        zIndex: 6,
       }}
     >
+      {' '}
       <div className="logo" />
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Menu.Item>
+          <MenuFoldOutlined
+            onClick={props.toggle}
+            style={{ fontSize: '18px' }}
+          />
+        </Menu.Item>
         <Menu.Item key="1">
           <a href="/liked">
             <PieChartOutlined />

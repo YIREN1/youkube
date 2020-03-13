@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { Layout } from 'antd';
@@ -18,12 +18,20 @@ import './App.css';
 const { Content } = Layout;
 
 const App = () => {
+  const [state, setState] = useState({
+    collapsed: true,
+  });
+  const toggle = () => {
+    setState({
+      collapsed: !state.collapsed,
+    });
+  };
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Layout>
-        <NavBar />
+        <NavBar toggle={toggle} />
         <Layout>
-          <Sidebar />
+          <Sidebar collapsed={state.collapsed} toggle={toggle}/>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content>
               <div

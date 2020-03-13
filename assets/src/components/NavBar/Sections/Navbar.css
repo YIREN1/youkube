@@ -16,6 +16,13 @@
   float: left;
 }
 
+.menu__unfold {
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 10px 16px 0;
+  float: left;
+  font-size: 18px;
+}
+
 .menu__logo a {
   display: inline-block;
   font-size: 20px;

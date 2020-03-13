@@ -3,10 +3,11 @@ import LeftMenu from './Sections/LeftMenu';
 import RightMenu from './Sections/RightMenu';
 import { Drawer, Button, Icon, Layout } from 'antd';
 import './Sections/Navbar.css';
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 import { withContext } from '../../context/AppContext';
 const { Header } = Layout;
 
-function NavBar() {
+function NavBar(props) {
   const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
@@ -16,7 +17,6 @@ function NavBar() {
   const onClose = () => {
     setVisible(false);
   };
-
   return (
     <Header
       className="menu"
@@ -24,12 +24,13 @@ function NavBar() {
         position: 'fixed',
         zIndex: 5,
         width: '100%',
-        background: 'black',
       }}
     >
+      <MenuUnfoldOutlined className="menu__unfold" onClick={props.toggle} />
       <div className="menu__logo">
         <a href="/"> </a>
       </div>
+
       <div className="menu__container">
         <div className="menu_left">
           <LeftMenu mode="horizontal" />

@@ -67,7 +67,7 @@ class RightMenu extends React.Component {
       );
     } else {
       return (
-        <Menu mode={this.props.mode} theme="dark">
+        <Menu mode={this.props.mode}>
           <Menu.Item key="upload">
             <a onClick={this.showUploadModal}>Uplaod</a>
           </Menu.Item>
