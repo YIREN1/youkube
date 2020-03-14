@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
+import {LikeOutlined,LikeFilled,DislikeFilled,DislikeOutlined} from '@ant-design/icons'
 import axios from 'axios';
 const likeAxios = axios.create();
 
@@ -131,12 +132,8 @@ function LikeDislike(props) {
   return (
     <React.Fragment>
       <span key="comment-basic-like">
-        <Tooltip title="Like">
-          <Icon
-            type="like"
-            theme={state.isLiked ? 'filled' : 'outlined'}
-            onClick={onLike}
-          />
+        <Tooltip title="Like" onClick={onLike}>
+          {state.isLiked ? <LikeFilled /> : <LikeOutlined />}
         </Tooltip>
         <span style={{ paddingLeft: '8px', cursor: 'auto' }}>
           {state.likeCount}
@@ -144,12 +141,8 @@ function LikeDislike(props) {
       </span>
       &nbsp;&nbsp;
       <span key="comment-basic-dislike">
-        <Tooltip title="Dislike">
-          <Icon
-            type="dislike"
-            theme={state.isDisliked ? 'filled' : 'outlined'}
-            onClick={onDislike}
-          />
+        <Tooltip title="Dislike" onClick={onDislike}>
+          {state.isDisliked ? <DislikeFilled /> : <DislikeOutlined />}
         </Tooltip>
         <span style={{ paddingLeft: '8px', cursor: 'auto' }}>
           {state.dislikeCount}

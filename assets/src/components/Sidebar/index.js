@@ -1,4 +1,4 @@
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 import {
   PieChartOutlined,
   FileOutlined,
@@ -6,7 +6,7 @@ import {
   UserOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React from 'react';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;

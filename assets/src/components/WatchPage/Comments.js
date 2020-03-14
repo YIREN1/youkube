@@ -72,7 +72,7 @@ function Comments(props) {
         state.commentList.map(
           (comment, index) =>
             !comment.responseTo && (
-              <React.Fragment>
+              <React.Fragment key={index}>
                 <SingleComment
                   key={`${comment.id}${index}`}
                   comment={comment}

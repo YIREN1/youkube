@@ -1,11 +1,15 @@
 import React from 'react';
 import { List, Avatar, Row, Col } from 'antd';
 // import VideoPlayer from '../common/VideoPlayer';
+import { FolderAddTwoTone } from '@ant-design/icons';
+
 import axios from 'axios';
 import SideVideos from './SideVideos';
 import Subscribe from './Subscirbe';
 import Comments from './Comments';
 import LikeDislike from './LikeDislike';
+import PlaylistModal from './PlaylistModal';
+
 const videoAxios = axios.create();
 
 videoAxios.interceptors.request.use(config => {
@@ -16,7 +20,11 @@ videoAxios.interceptors.request.use(config => {
 class WatchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { video: {}, videoId: props.match.params.videoId };
+    this.state = {
+      video: {},
+      videoId: props.match.params.videoId,
+      playlistVisible: false,
+    };
   }
   componentDidMount() {
     axios.get(`/video/getVideo/${this.state.videoId}`).then(response => {
@@ -27,6 +35,18 @@ class WatchPage extends React.Component {
       }
     });
   }
+  showPlaylistModal = () => {
+    this.setState({
+      playlistVisible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      playlistVisible: false,
+    });
+  };
+
   handleKeyPress = event => {
     if (event.key === 'f') {
       // todo
@@ -43,6 +63,17 @@ class WatchPage extends React.Component {
     }
   };
   render() {
+    const saveButton = (
+      <div>
+        <div onClick={this.showPlaylistModal}>
+          <FolderAddTwoTone /> Save
+        </div>
+        <PlaylistModal
+          visible={this.state.playlistVisible}
+          onCancel={this.handleCancel}
+        />
+      </div>
+    );
     if (this.state.video.author) {
       return (
         <Row onKeyPress={this.handleKeyPress}>
@@ -63,6 +94,7 @@ class WatchPage extends React.Component {
                     // video
                     videoId={this.state.videoId}
                   />,
+                  saveButton,
                   <Subscribe userTo={this.state.video.author.id} />,
                 ]}
               >

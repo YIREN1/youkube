@@ -3,7 +3,6 @@ import {
   Form,
   Input,
   Tooltip,
-  Icon,
   Select,
   Checkbox,
   Button,
@@ -143,7 +142,7 @@ class RegistrationForm extends React.Component {
               <span>
                 Name&nbsp;
                 <Tooltip title="What do you want others to call you?">
-                  <Icon type="question-circle-o" />
+                  {/* <Icon type="question-circle-o" /> */}
                 </Tooltip>
               </span>
             }

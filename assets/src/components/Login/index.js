@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import './style.css';
 import { withContext } from '../../context/AppContext';
 class NormalLoginForm extends React.Component {
@@ -26,9 +26,9 @@ class NormalLoginForm extends React.Component {
               rules: [{ required: true, message: 'Please input your email!' }],
             })(
               <Input
-                prefix={
-                  <Icon type="email" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
+                // prefix={
+                //   <Icon type="email" style={{ color: 'rgba(0,0,0,.25)' }} />
+                // }
                 placeholder="email"
               />,
             )}
@@ -40,9 +40,9 @@ class NormalLoginForm extends React.Component {
               ],
             })(
               <Input
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
+                // prefix={
+                //   <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                // }
                 type="password"
                 placeholder="Password"
               />,
