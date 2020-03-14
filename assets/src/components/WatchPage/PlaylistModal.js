@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
-import { Checkbox, Button, Modal, Menu, Form, Input, Select } from 'antd';
+import React, { useState, useEffect } from 'react';
+// import { Form } from '@ant-design/compatible';
+// import '@ant-design/compatible/assets/index.css';
+import { Checkbox, Button, Modal, Menu, Input, Select, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import axios from 'axios';
 const { Option } = Select;
+const videoAxios = axios.create();
+
+videoAxios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  config.headers.Authorization = token;
+  return config;
+});
 
 const PlaylistModal = props => {
   const { visible, onCancel } = props;
@@ -9,6 +19,20 @@ const PlaylistModal = props => {
     playlists: [{ name: 'a' }, { name: 'bbb' }, { name: 'watch later' }],
     isAddingNew: false,
   });
+
+  useEffect(() => {
+    videoAxios.get('/playlist/getPlaylists').then(response => {
+      if (response.data.success) {
+        setState(state => ({
+          ...state,
+          playlists: response.data.playlists,
+        }));
+      } else {
+        alert('Failed to createPlaylist');
+      }
+    });
+  }, []);
+
   const onOpenForm = () => {
     setState(state => ({
       ...state,
@@ -19,6 +43,16 @@ const PlaylistModal = props => {
   const ontoggle = () => {};
   const onFinish = values => {
     console.log('Received values from form: ', values);
+    videoAxios.post('/playlist/createPlaylist', values).then(response => {
+      if (response.data.success) {
+        setState(state => ({
+          ...state,
+          playlists: state.playlists.concat(response.data.savedPlaylist),
+        }));
+      } else {
+        alert('Failed to createPlaylist');
+      }
+    });
   };
   return (
     <Modal
@@ -44,7 +78,9 @@ const PlaylistModal = props => {
           onFinish={onFinish}
           layout="vertical"
           name="form_in_modal"
-          // onSubmit={handleSubmit}
+          initialValues={{
+            privacy: 'public',
+          }}
         >
           <Form.Item
             name="name"
@@ -59,13 +95,10 @@ const PlaylistModal = props => {
             <Input />
           </Form.Item>
           <Form.Item name="privacy" label="Privacy">
-            <Select
-              defaultValue="Public"
-              style={{ width: 120 }}
-            >
-              <Option value="Public">Public</Option>
-              <Option value="Private">Private</Option>
-              <Option value="Unlisted">Unlisted</Option>
+            <Select defaultValue="Public" style={{ width: 120 }}>
+              <Option value="public">Public</Option>
+              <Option value="private">Private</Option>
+              <Option value="unlisted">Unlisted</Option>
             </Select>
           </Form.Item>
           <Form.Item>

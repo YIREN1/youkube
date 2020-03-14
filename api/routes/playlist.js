@@ -6,7 +6,9 @@ const PlaylistController = require('../controllers/PlaylistController');
 
 const passportJWT = passport.authenticate('jwt', { session: false });
 
-router.post('/savePlaylist', passportJWT, PlaylistController.savePlaylist);
+router.post('/createPlaylist', passportJWT, PlaylistController.createPlaylist);
+
+router.post('/saveToPlaylist', passportJWT, PlaylistController.saveToPlaylist);
 
 router.get('/getPlaylists', passportJWT, PlaylistController.getPlaylists);
 

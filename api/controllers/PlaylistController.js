@@ -1,24 +1,28 @@
 const Playlist = require('../models/Playlist');
 
-const savePlaylist = async (req, res) => {
+const saveToPlaylist = async (req, res) => {};
+const createPlaylist = async (req, res) => {
   try {
     const playlist = new Playlist(req.body);
     playlist.userId = req.user.id;
+    if (!playlist.videoIds) {
+      playlist.videoIds = [];
+    }
     const savedPlaylist = await playlist.save();
     return res.status(200).json({ success: true, savedPlaylist });
   } catch (error) {
+    console.error(error);
     return res.json({ success: false, error });
   }
 };
 
 const getPlaylists = async (req, res) => {
   try {
-    const { userId } = req.query;
-    const playlists = await Playlist.find({ userId });
+    const playlists = await Playlist.find({ userId: req.user.id });
     return res.status(200).json({ success: true, playlists });
   } catch (error) {
     return res.json({ success: false, error });
   }
 };
 
-module.exports = { savePlaylist, getPlaylists };
+module.exports = { saveToPlaylist, getPlaylists, createPlaylist };

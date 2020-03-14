@@ -11,15 +11,16 @@
 - [] thumbnail preview
 - [] user from is req.user(subscribecontroller, userfrom)
 - [] if reply to myself, no @
-- [] side bar
+- [x] side bar
 - [] playlist
 - [x] like dislikes
-- [] move video further right
-- [] video player
-- [] toggle side bar
+- [x] move video further right
+- [x] video player
+- [x] toggle side bar
 - [] filestack
 - [] user avatar(boilerplate?) not important
 - [] search
 - [] picture in picture when in home
 - [] theater mode
-- []
+- [] refactor upload step
+- [] refactor register

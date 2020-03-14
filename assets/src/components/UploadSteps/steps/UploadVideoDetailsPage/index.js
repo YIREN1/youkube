@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography, Button, Form, message, Upload, Input, Modal } from 'antd';
+import { Form } from '@ant-design/compatible';
+// import '@ant-design/compatible/assets/index.css';
+import { Typography, Button, message, Upload, Input, Modal } from 'antd';
 import axios from 'axios';
 // import { PlusOutlined } from '@ant-design/icons';
 import './style.css';

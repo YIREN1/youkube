@@ -19,6 +19,11 @@ const PlaylistSchema = mongoose.Schema(
         ref: 'Video',
       },
     ],
+    privacy: {
+      type: String,
+      enum: ['private', 'public', 'unlisted'],
+      required: true,
+    },
   },
   { timestamps: true },
 );
