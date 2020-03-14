@@ -1,6 +1,38 @@
 const Playlist = require('../models/Playlist');
 
-const saveToPlaylist = async (req, res) => {};
+const saveToPlaylist = async (req, res) => {
+  try {
+    const { videoId, playlistId } = req.query;
+    const userId = req.user.id;
+    const foundPlaylist = await Playlist.find({ userId, _id: playlistId });
+    if (foundPlaylist.videoIds.includes(videoId)) {
+      return res.status(200).json({ success: true });
+    }
+    foundPlaylist.videoIds.push(videoId);
+    foundPlaylist.save();
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, error });
+  }
+};
+
+const removeFromPlaylist = async (req, res) => {
+  try {
+    const { videoId, playlistId } = req.query;
+    const userId = req.user.id;
+    const foundPlaylist = await Playlist.find({ userId, _id: playlistId });
+    if (foundPlaylist.videoIds.includes(videoId)) {
+      return res.status(200).json({ success: true });
+    }
+    foundPlaylist.videoIds.push(videoId);
+    foundPlaylist.save();
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, error });
+  }
+};
 const createPlaylist = async (req, res) => {
   try {
     const playlist = new Playlist(req.body);

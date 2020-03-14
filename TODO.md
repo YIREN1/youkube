@@ -23,4 +23,5 @@
 - [] picture in picture when in home
 - [] theater mode
 - [] refactor upload step
-- [] refactor register
+- [x] refactor register
+- [] change boilerplate
