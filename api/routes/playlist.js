@@ -10,6 +10,12 @@ router.post('/createPlaylist', passportJWT, PlaylistController.createPlaylist);
 
 router.post('/saveToPlaylist', passportJWT, PlaylistController.saveToPlaylist);
 
+router.post(
+  '/removeFromPlaylist',
+  passportJWT,
+  PlaylistController.removeFromPlaylist,
+);
+
 router.get('/getPlaylists', passportJWT, PlaylistController.getPlaylists);
 
 module.exports = router;

@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-// import { Form } from '@ant-design/compatible';
-// import '@ant-design/compatible/assets/index.css';
-import { Checkbox, Button, Modal, Menu, Input, Select, Form } from 'antd';
+import {
+  Checkbox,
+  Button,
+  Modal,
+  Menu,
+  Input,
+  Select,
+  Form,
+  message,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 const { Option } = Select;
@@ -16,22 +23,25 @@ videoAxios.interceptors.request.use(config => {
 const PlaylistModal = props => {
   const { visible, onCancel } = props;
   const [state, setState] = useState({
-    playlists: [{ name: 'a' }, { name: 'bbb' }, { name: 'watch later' }],
+    playlists: [],
     isAddingNew: false,
   });
-
+  const { videoId } = props;
   useEffect(() => {
     videoAxios.get('/playlist/getPlaylists').then(response => {
       if (response.data.success) {
         setState(state => ({
           ...state,
-          playlists: response.data.playlists,
+          playlists: response.data.playlists.map(playlist => {
+            playlist.checked = playlist.videoIds.includes(videoId);
+            return playlist;
+          }),
         }));
       } else {
         alert('Failed to createPlaylist');
       }
     });
-  }, []);
+  }, [videoId]);
 
   const onOpenForm = () => {
     setState(state => ({
@@ -40,9 +50,38 @@ const PlaylistModal = props => {
     }));
   };
 
-  const ontoggle = () => {};
+  const ontoggle = (playlistId, index) => {
+    if (!state.playlists[index].checked) {
+      videoAxios
+        .post('/playlist/saveToPlaylist', { videoId, playlistId })
+        .then(response => {
+          if (response.data.success) {
+            message.success(`successfully saved to ${state.playlists[index].name}`);
+          } else {
+            alert('Failed to createPlaylist');
+          }
+        });
+    } else {
+      videoAxios
+        .post('/playlist/removeFromPlaylist', { videoId, playlistId })
+        .then(response => {
+          if (response.data.success) {
+            message.success('successfully removed');
+          } else {
+            alert('Failed to createPlaylist');
+          }
+        });
+    }
+
+    setState(state => ({
+      ...state,
+      playlists: state.playlists.map(playlist => {
+        playlist.checked = !playlist.checked;
+        return playlist;
+      }),
+    }));
+  };
   const onFinish = values => {
-    console.log('Received values from form: ', values);
     videoAxios.post('/playlist/createPlaylist', values).then(response => {
       if (response.data.success) {
         setState(state => ({
@@ -54,6 +93,22 @@ const PlaylistModal = props => {
       }
     });
   };
+
+  const playlistsCheckbox = state.playlists.map((playlist, index) => {
+    return (
+      <div key={index}>
+        <Checkbox
+          defaultChecked={playlist.checked}
+          onChange={() => ontoggle(playlist.id, index)}
+        >
+          {playlist.name}
+        </Checkbox>
+        <br />
+        <br />
+      </div>
+    );
+  });
+
   return (
     <Modal
       width={240}
@@ -63,15 +118,7 @@ const PlaylistModal = props => {
       footer={null}
       onCancel={onCancel}
     >
-      {state.playlists.map((playlisy, index) => (
-        <div key={index}>
-          <Checkbox checked={true} onChange={ontoggle}>
-            {playlisy.name}
-          </Checkbox>
-          <br />
-          <br />
-        </div>
-      ))}
+      {playlistsCheckbox}
       <hr />
       {state.isAddingNew ? (
         <Form

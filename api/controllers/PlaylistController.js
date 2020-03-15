@@ -2,9 +2,10 @@ const Playlist = require('../models/Playlist');
 
 const saveToPlaylist = async (req, res) => {
   try {
-    const { videoId, playlistId } = req.query;
+    const { videoId, playlistId } = req.body;
     const userId = req.user.id;
-    const foundPlaylist = await Playlist.find({ userId, _id: playlistId });
+    const foundPlaylist = await Playlist.findOne({ _id: playlistId });
+    // console.log(foundPlaylist);
     if (foundPlaylist.videoIds.includes(videoId)) {
       return res.status(200).json({ success: true });
     }
@@ -13,20 +14,22 @@ const saveToPlaylist = async (req, res) => {
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
-    return res.json({ success: false, error });
+    return res.status(500).json({ success: false, error });
   }
 };
 
 const removeFromPlaylist = async (req, res) => {
   try {
-    const { videoId, playlistId } = req.query;
+    const { videoId, playlistId } = req.body;
     const userId = req.user.id;
-    const foundPlaylist = await Playlist.find({ userId, _id: playlistId });
-    if (foundPlaylist.videoIds.includes(videoId)) {
+    const foundPlaylist = await Playlist.findOne({ _id: playlistId });
+    const indexOfVideo = foundPlaylist.videoIds.indexOf(videoId);
+    if (indexOfVideo !== -1) {
+      console.log(indexOfVideo);
+      foundPlaylist.videoIds.splice(indexOfVideo, 1);
+      foundPlaylist.save();
       return res.status(200).json({ success: true });
     }
-    foundPlaylist.videoIds.push(videoId);
-    foundPlaylist.save();
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
@@ -57,4 +60,9 @@ const getPlaylists = async (req, res) => {
   }
 };
 
-module.exports = { saveToPlaylist, getPlaylists, createPlaylist };
+module.exports = {
+  saveToPlaylist,
+  getPlaylists,
+  createPlaylist,
+  removeFromPlaylist,
+};

@@ -27,6 +27,12 @@ const PlaylistSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
+PlaylistSchema.set('toObject', {
+  virtuals: true,
+});
+PlaylistSchema.set('toJSON', {
+  virtuals: true,
+});
 
 const Playlist = mongoose.model('Playlist', PlaylistSchema);
 

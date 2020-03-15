@@ -1,6 +1,5 @@
 import React from 'react';
 import { List, Avatar, Row, Col } from 'antd';
-// import VideoPlayer from '../common/VideoPlayer';
 import { FolderAddTwoTone } from '@ant-design/icons';
 
 import axios from 'axios';
@@ -71,18 +70,20 @@ class WatchPage extends React.Component {
         <PlaylistModal
           visible={this.state.playlistVisible}
           onCancel={this.handleCancel}
+          videoId={this.state.videoId}
         />
       </div>
     );
     if (this.state.video.author) {
       return (
-        <Row onKeyPress={this.handleKeyPress}>
+        <Row>
           <Col lg={18} xs={24}>
             <div
               className="postPage"
               style={{ width: '100%', padding: '3rem 4em' }}
             >
               <video
+                onKeyPress={this.handleKeyPress}
                 style={{ width: '100%' }}
                 src={`http://localhost:1339/${this.state.video.filePath}`}
                 controls
