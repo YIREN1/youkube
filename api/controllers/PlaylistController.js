@@ -60,9 +60,25 @@ const getPlaylists = async (req, res) => {
   }
 };
 
+const getVideosInPlaylist = async (req, res) => {
+  try {
+    const { playlistId } = req.params;
+    const foundPlaylist = await Playlist.findOne({ _id: playlistId }).populate(
+      'videoIds',
+    );
+    console.log(foundPlaylist);
+    return res
+      .status(200)
+      .json({ success: true, videos: foundPlaylist.videoIds });
+  } catch (error) {
+    return res.json({ success: false, error });
+  }
+};
+
 module.exports = {
   saveToPlaylist,
   getPlaylists,
   createPlaylist,
   removeFromPlaylist,
+  getVideosInPlaylist,
 };

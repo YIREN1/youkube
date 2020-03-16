@@ -1,17 +1,37 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, message } from 'antd';
 import {
   PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
   MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
+const videoAxios = axios.create();
+
+videoAxios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  config.headers.Authorization = token;
+  return config;
+});
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 function Sidebar(props) {
+  const [state, setState] = useState({
+    playlists: [],
+  });
+  useEffect(() => {
+    videoAxios.get('/playlist/getPlaylists').then(response => {
+      if (response.data.success) {
+        setState(state => ({
+          ...state,
+          playlists: response.data.playlists,
+        }));
+      } else {
+        message.error('Failed to get playlists');
+      }
+    });
+  }, []);
   return (
     <Sider
       collapsedWidth={0}
@@ -47,34 +67,14 @@ function Sidebar(props) {
             <span>Your videos</span>
           </a>
         </Menu.Item>
-        <SubMenu
-          key="sub1"
-          title={
-            <span>
-              <UserOutlined />
-              <span>User</span>
-            </span>
-          }
-        >
-          <Menu.Item key="3">Tom</Menu.Item>
-          <Menu.Item key="4">Bill</Menu.Item>
-          <Menu.Item key="5">Alex</Menu.Item>
-        </SubMenu>
-        <SubMenu
-          key="sub2"
-          title={
-            <span>
-              <TeamOutlined />
-              <span>Team</span>
-            </span>
-          }
-        >
-          <Menu.Item key="6">Team 1</Menu.Item>
-          <Menu.Item key="8">Team 2</Menu.Item>
-        </SubMenu>
-        <Menu.Item key="9">
-          <FileOutlined />
-        </Menu.Item>
+        {state.playlists.map((playlist, index) => (
+          <Menu.Item key={index}>
+            <a href={`/playlist/${playlist.id}`}>
+              <MenuUnfoldOutlined />
+              {playlist.name}
+            </a>
+          </Menu.Item>
+        ))}
       </Menu>
     </Sider>
   );

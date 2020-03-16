@@ -10,6 +10,7 @@ import Home from './Home';
 import Sidebar from './Sidebar';
 import LikedVideos from './LikedVideos';
 import YourVideos from './YourVideos';
+import Playlist from './Playlist';
 
 import WatchPage from './WatchPage';
 import Subscription from './Subscription';
@@ -31,7 +32,7 @@ const App = () => {
       <Layout>
         <NavBar toggle={toggle} />
         <Layout>
-          <Sidebar collapsed={state.collapsed} toggle={toggle}/>
+          <Sidebar collapsed={state.collapsed} toggle={toggle} />
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content>
               <div
@@ -49,6 +50,11 @@ const App = () => {
                   <ProtectedRoute exact path="/yours" component={YourVideos} />
 
                   <Route exact path="/watch/:videoId" component={WatchPage} />
+                  <Route
+                    exact
+                    path="/playlist/:playlistId"
+                    component={Playlist}
+                  />
                 </Switch>
               </div>
             </Content>
