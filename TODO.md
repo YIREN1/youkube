@@ -25,3 +25,6 @@
 - [] refactor upload step
 - [x] refactor register
 - [] change boilerplate
+- [] comment test
+- [] token invalid
+- [] fullscreen
